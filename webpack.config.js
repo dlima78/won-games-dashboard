@@ -5,8 +5,9 @@ module.exports = {
   mode: 'development',
   entry: './src/index.tsx',
   output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: 'bundle.js'
+    path: path.join(__dirname, 'public/js'),
+    filename: 'bundle.js',
+    publicPath: '/public/js'
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js'],
@@ -14,18 +15,26 @@ module.exports = {
       '@': path.join(__dirname, 'src')
     }
   },
+  module: {
+    rules: [{
+      test: /\.tsx?$/,
+      loader: 'ts-loader',
+      exclude: /node_modules/,
+      options: {
+        getCustomTransformers: path.join(__dirname, './webpack.ts-transformers.js')
+      }
+    }]
+  },
   devServer: {
     static: {
       directory: path.join(__dirname, 'public')
     },
-    writeToDisk: true,
+    devMiddleware: {
+      writeToDisk: true
+    },
     compress: true,
     historyApiFallback: true,
     port: 8080
-  },
-  externals: {
-    react: 'React',
-    'react-dom': 'ReactDOM'
   },
   plugins: [
     new CleanWebpackPlugin()
