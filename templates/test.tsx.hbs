@@ -1,0 +1,12 @@
+import React from 'react'
+import {{pascalCase name}} from '@/presentation/components/{{dashCase name}}'
+import { renderWithTheme } from '@/utils/helper'
+import { screen } from '@testing-library/react'
+
+describe('<{{pascalCase name}} />', () => {
+  test('Should render heading', () => {
+    renderWithTheme(<{{ pascalCase name}} />)
+
+    expect(screen.getByRole('heading', {name: /{{ pascalCase name }}/i})).toBeInTheDocument()
+  })
+})

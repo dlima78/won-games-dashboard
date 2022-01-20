@@ -10,7 +10,7 @@
     "test:staged": "npm test -- --findRelatedTests",
     "test:ci": "npm test -- --coverage",
     "lint:fix": "npm run lint -- --fix",
-    "plop": "npm run plop --plopfile ./generators/plopfile.js",
+    "plop": "plop",
     "prepare": "husky install",
     "storybook": "start-storybook -p 6006 --no-open",
     "build-storybook": "build-storybook"
@@ -47,6 +47,7 @@
     "jest": "^27.4.7",
     "jest-styled-components": "^7.0.8",
     "lint-staged": "^11.1.2",
+    "plop": "^3.0.5",
     "styled-components": "^5.3.3",
     "ts-jest": "^27.1.2",
     "ts-loader": "^9.2.6",
