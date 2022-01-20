@@ -1,3 +1,5 @@
+const path = require('path')
+
 module.exports = {
   "stories": [
     "../src/**/*.stories.mdx",
@@ -5,7 +7,18 @@ module.exports = {
   ],
   "addons": [
     "@storybook/addon-links",
-    "@storybook/addon-essentials"
+    "@storybook/addon-essentials",
+    "@react-theming/storybook-addon"
   ],
-  "framework": "@storybook/react"
+  "staticDirs": [
+    '../public'
+  ],
+  "framework": "@storybook/react",
+  webpackFinal: async (config) => { // 👈 and add this here
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      '@': path.resolve(__dirname, '../src/'),
+    };
+    return config;
+  },
 }

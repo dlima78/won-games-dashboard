@@ -21,10 +21,10 @@ export default {
     }
   },
   colors: {
-    primary: '#F231A5',
-    secondary: '#3CD3C1',
-    mainBg: '#06092B',
-    lightBg: '#F2F2F2',
+    primary: '#5886FF',
+    secondary: '#0F1A34',
+    darkBg: '#06092B',
+    lightBg: '#F9F9F9',
     white: '#FAFAFA',
     black: '#030517',
     lightGray: '#EAEAEA',
