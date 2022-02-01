@@ -1,10 +1,10 @@
 import React from 'react'
 import {
   BrowserRouter,
-  Routes,
   Route
 } from 'react-router-dom'
-import Login from '@/presentation/pages/login'
+import SignIn from '@/presentation/pages/sign-in'
+import SignUp from '@/presentation/pages/sign-up'
 import GlobalStyles from '@/presentation/styles/global'
 import light from '@/presentation/styles/light'
 import { ThemeProvider } from 'styled-components'
@@ -14,9 +14,8 @@ const Router: React.FC = () => {
     <BrowserRouter>
       <ThemeProvider theme={light} >
         <GlobalStyles />
-        <Routes>
-          <Route path='/login' element={<Login />} />
-        </Routes>
+          <Route path='/sign-in' element={<SignIn />} />
+          <Route path='/sign-up' element={<SignUp />} />
       </ThemeProvider>
     </BrowserRouter>
   )
