@@ -8,7 +8,7 @@ export default {
   component: FormSignUp
 } as ComponentMeta<typeof FormSignUp>
 
-export const Basic: ComponentStory<typeof FormSignUp> = () => (
+export const Default: ComponentStory<typeof FormSignUp> = () => (
   <div style={{ width: 300, margin: 'auto' }}>
     <FormSignUp />
   </div>

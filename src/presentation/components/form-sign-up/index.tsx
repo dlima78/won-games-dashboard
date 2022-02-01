@@ -4,11 +4,11 @@ import { Email } from '@styled-icons/material/Email'
 import { Lock } from '@styled-icons/material/Lock'
 import TextField from '@/presentation/components/text-field'
 import Button from '@/presentation/components/button'
-import * as S from './form-sign-up.styled'
+import * as S from '@/presentation/components/form'
 
 const FormSignUp: React.FC = () => {
   return (
-    <S.Wrapper>
+    <S.FormWrapper>
       <form >
         <TextField type='text' icon={<AccountCircle />} placeholder='Nome' />
         <TextField type='email' icon={<Email />} placeholder='Email' />
@@ -19,7 +19,7 @@ const FormSignUp: React.FC = () => {
         </Button>
         <S.FormLink to='/sign-in'>Já possui conta?</S.FormLink>
       </form>
-    </S.Wrapper>
+    </S.FormWrapper>
   )
 }
 
