@@ -1,9 +1,9 @@
 import React from 'react'
 import { Email } from '@styled-icons/material/Email'
 import { Lock } from '@styled-icons/material/Lock'
-import TextField from '../text-field'
+import TextField from '@/presentation/components/text-field'
+import Button from '@/presentation/components/button'
 import * as S from './form-sign-in.styled'
-import Button from '../button'
 
 const FormSignIn: React.FC = () => {
   return (
