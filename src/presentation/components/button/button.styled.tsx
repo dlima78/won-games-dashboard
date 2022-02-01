@@ -1,5 +1,6 @@
 import styled, { css, DefaultTheme } from 'styled-components'
 import { ButtonProps } from '.'
+import { darken } from 'polished'
 
 type WrapperProps = Pick<ButtonProps, 'size' | 'fullWidth'>
 
@@ -28,16 +29,17 @@ export const Wrapper = styled.button<WrapperProps>`
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background-color: ${theme.colors.red};
+    background-color: ${theme.colors.primary};
     color: ${theme.colors.white};
     cursor: pointer;
     border: 0;
     border-radius: ${theme.border.radiusButton};
     padding: ${theme.spacings.xxsmall};
     text-decoration: none;
+    transition: color, ${theme.transition.default};
 
     &:hover {
-      background-color: #ff375f;
+      background-color: ${darken(0.1, theme.colors.primary)};
     }
 
     ${!!size && wrapperModifiers[size](theme)}

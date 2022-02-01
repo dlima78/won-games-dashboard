@@ -1,7 +1,8 @@
 import React from 'react'
 import {
   BrowserRouter,
-  Route
+  Route,
+  Routes
 } from 'react-router-dom'
 import SignIn from '@/presentation/pages/sign-in'
 import SignUp from '@/presentation/pages/sign-up'
@@ -14,8 +15,10 @@ const Router: React.FC = () => {
     <BrowserRouter>
       <ThemeProvider theme={light} >
         <GlobalStyles />
-          <Route path='/sign-in' element={<SignIn />} />
-          <Route path='/sign-up' element={<SignUp />} />
+          <Routes>
+            <Route path='/sign-in' element={<SignIn />} />
+            <Route path='/sign-up' element={<SignUp />} />
+          </Routes>
       </ThemeProvider>
     </BrowserRouter>
   )

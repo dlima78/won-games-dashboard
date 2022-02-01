@@ -31,7 +31,7 @@ describe('<Textfield />', () => {
     renderWithTheme(<Textfield label='textField label' labelFor='text-field' labelColor='white' />)
 
     expect(screen.getByText(/textField label/i)).toHaveStyle({
-      color: '#fafafa'
+      color: '#EDE6E3'
     })
   })
 

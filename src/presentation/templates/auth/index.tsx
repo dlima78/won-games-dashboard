@@ -14,8 +14,8 @@ const Auth: React.FC<AuthProps> = ({ title, children }: AuthProps) => {
       </S.Header>
       <S.Main>
         <S.Content>
-        <S.Title>{title} </S.Title>
-        {children}
+          <S.Title>{title}</S.Title>
+          {children}
         </S.Content>
       </S.Main>
     </S.Wrapper>

@@ -9,34 +9,41 @@ export const Wrapper = styled.div`
 `
 
 export const Header = styled.header`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 10rem;
+  ${({ theme }) => css`
+    display: flex;
+    background-color: ${theme.colors.tertiary};
+    align-items: center;
+    justify-content: center;
+    height: 10rem;    
+  `}
 `
 export const Logo = styled.span`
   ${({ theme }) => css`
-    color: ${theme.colors.darkGray};
+    color: ${theme.colors.white};
     font-size: ${theme.font.sizes.xlarge};
   `}
 `
 
-export const Main = styled.main`
-  border: 5px solid red;
+export const Main = styled.main`  
   height: 100%;
   display: grid;
   align-items: center;
   justify-content: center;
 `
-export const Title = styled.h1``
 
 export const Content = styled.div`
   ${({ theme }) => css`
-    border: 5px solid blue;
+    background-color: ${theme.colors.secondary};
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+    color: ${theme.colors.white};
     max-width: 30rem;
+    padding: ${theme.spacings.small} ${theme.spacings.xsmall} ${theme.spacings.small};
+    text-align: center;
 
     ${media.greaterThan('medium')`
       width: 36rem;
     `}
   `}
 `
+
+export const Title = styled.h1``

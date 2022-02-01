@@ -20,8 +20,8 @@ describe('<Form />', () => {
 
     expect(container.parentElement).toMatchInlineSnapshot(`
       .c0 a {
-        border-bottom: 0.1rem solid #5886FF;
-        color: #5886FF;
+        border-bottom: 0.1rem solid #429EA6;
+        color: #429EA6;
         font-size: 1.2rem;
         -webkit-text-decoration: none;
         text-decoration: none;
@@ -30,8 +30,8 @@ describe('<Form />', () => {
       }
 
       .c0 a:hover {
-        border-bottom: 0.1rem solid #2561ff;
-        color: #2561ff;
+        border-bottom: 0.1rem solid #5db7be;
+        color: #5db7be;
       }
 
       <body>

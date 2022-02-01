@@ -28,6 +28,7 @@ declare module 'styled-components' {
     colors: {
       primary: string
       secondary: string
+      tertiary: string
       darkBg: string
       lightBg: string
       white: string
@@ -36,6 +37,7 @@ declare module 'styled-components' {
       gray: string
       darkGray: string
       red: string
+      green: string
     }
     spacings: {
       xxsmall: string
