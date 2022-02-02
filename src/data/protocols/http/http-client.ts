@@ -4,5 +4,15 @@ export type HttpRequest = {
 }
 
 export interface HttpPostClient {
-  post: (data: HttpRequest) => Promise<void>
+  post: (data: HttpRequest) => Promise<HttpResponse>
+}
+
+export enum HttpStatusCode {
+  noContent = 204,
+  unauthorized = 401
+}
+
+export type HttpResponse = {
+  statusCode: HttpStatusCode
+  body?: any
 }
