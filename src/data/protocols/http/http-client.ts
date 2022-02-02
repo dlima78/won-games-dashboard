@@ -1,10 +1,10 @@
-export type HttpRequest = {
+export type HttpRequest<T> = {
   url: string
-  body?: object
+  body?: T
 }
 
-export interface HttpPostClient {
-  post: (data: HttpRequest) => Promise<HttpResponse>
+export interface HttpPostClient<T, R> {
+  post: (data: HttpRequest<T>) => Promise<HttpResponse<R>>
 }
 
 export enum HttpStatusCode {
@@ -16,7 +16,7 @@ export enum HttpStatusCode {
   serverError = 500,
 }
 
-export type HttpResponse = {
+export type HttpResponse<T> = {
   statusCode: HttpStatusCode
-  body?: any
+  body?: T
 }

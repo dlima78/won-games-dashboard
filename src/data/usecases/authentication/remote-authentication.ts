@@ -5,7 +5,7 @@ import { Authentication } from '@/domain/usecases/authentication'
 export class RemoteAuthentication {
   constructor (
     private readonly url: string,
-    private readonly httpPostClient: HttpPostClient
+    private readonly httpPostClient: HttpPostClient<Authentication.Params, RemoteAuthentication.Model>
   ) {}
 
   async auth (params: Authentication.Params): Promise<void> {
@@ -19,4 +19,8 @@ export class RemoteAuthentication {
       default: throw new UnexpectedError()
     }
   }
+}
+
+export namespace RemoteAuthentication {
+  export type Model = Authentication.Model
 }

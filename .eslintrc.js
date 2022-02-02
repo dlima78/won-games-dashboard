@@ -19,6 +19,7 @@ module.exports = {
     '@typescript-eslint/consistent-type-assertions': 'off',
     '@typescript-eslint/no-use-before-define': 'off',
     '@typescript-eslint/no-namespace': 'off',
+    'import/export': 'off',
     'react/jsx-uses-react': 'error',
     'react/jsx-uses-vars': 'error'
   }
