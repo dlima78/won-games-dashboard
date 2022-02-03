@@ -1,6 +1,6 @@
 import { HttpPostClient, HttpStatusCode } from '@/data/protocols/http'
 import { InvalidCredentialsError, UnexpectedError } from '@/domain/errors'
-import { Authentication } from '@/domain/usecases/authentication'
+import { Authentication } from '@/domain/usecases'
 
 export class RemoteAuthentication implements Authentication {
   constructor (
