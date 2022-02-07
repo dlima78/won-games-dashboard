@@ -2,7 +2,7 @@ import React, { InputHTMLAttributes, useState } from 'react'
 import * as S from './text-field.styled'
 
 export type TextFieldProps = {
-  onInput?: (value: string) => void
+  onInputChange?: (value: string) => void
   label?: string
   labelFor?: string
   labelColor?: 'white' | 'black'
@@ -14,7 +14,7 @@ export type TextFieldProps = {
 } & InputHTMLAttributes<HTMLInputElement>
 
 const TextField: React.FC<TextFieldProps> = ({
-  onInput,
+  onInputChange,
   label,
   labelFor = '',
   labelColor = 'black',
@@ -31,7 +31,7 @@ const TextField: React.FC<TextFieldProps> = ({
     const newValue = e.currentTarget.value
     setValue(newValue)
 
-    !!onInput && onInput(newValue)
+    !!onInputChange && onInputChange(newValue)
   }
   return (
     <S.Wrapper disabled={disabled} error={!!error} >
