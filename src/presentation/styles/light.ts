@@ -23,14 +23,14 @@ export default {
     }
   },
   colors: {
-    primary: '#5BC3EB',
+    primary: '#1877f2',
     secondary: '#000827',
     tertiary: '#f06449',
     darkBg: '#272a36',
-    lightBg: '#DADAD9',
-    white: '#EDE6E3',
+    lightBg: '#eaeaea',
+    white: '#ffffff',
     black: '#030517',
-    lightGray: '#EAEAEA',
+    lightGray: '#d3d3d3',
     gray: '#8F8F8F',
     darkGray: '#2E2F42',
     red: '#fa5c7c',

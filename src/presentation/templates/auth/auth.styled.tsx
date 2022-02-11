@@ -11,7 +11,6 @@ export const Wrapper = styled.div`
 export const Header = styled.header`
   ${({ theme }) => css`
     display: flex;
-    background-color: ${theme.colors.tertiary};
     align-items: center;
     justify-content: center;
     height: 10rem;    
@@ -19,7 +18,7 @@ export const Header = styled.header`
 `
 export const Logo = styled.span`
   ${({ theme }) => css`
-    color: ${theme.colors.white};
+    color: ${theme.colors.secondary};
     font-size: ${theme.font.sizes.xlarge};
   `}
 `
@@ -33,9 +32,10 @@ export const Main = styled.main`
 
 export const Content = styled.div`
   ${({ theme }) => css`
-    background-color: ${theme.colors.secondary};
-    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
-    color: ${theme.colors.white};
+    background-color: #fff;
+    border-radius: 1px;
+    border: 1px solid ${theme.colors.lightGray};
+    color: ${theme.colors.primary};
     max-width: 30rem;
     padding: ${theme.spacings.small} ${theme.spacings.xsmall} ${theme.spacings.small};
     text-align: center;
