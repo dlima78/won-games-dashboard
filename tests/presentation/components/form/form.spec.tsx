@@ -1,8 +1,8 @@
-import React from 'react'
-import { FormLink, FormWrapper } from '@/presentation/components/form'
-import { renderWithTheme } from '@/utils/helper'
-import { RenderResult } from '@testing-library/react'
-import { BrowserRouter } from 'react-router-dom'
+import React from "react";
+import { FormLink, FormWrapper } from "@/presentation/components/form";
+import { renderWithTheme } from "@/utils/helper";
+import { RenderResult } from "@testing-library/react";
+import { BrowserRouter } from "react-router-dom";
 
 const makeSut = (): RenderResult => {
   return renderWithTheme(
@@ -11,17 +11,17 @@ const makeSut = (): RenderResult => {
         <FormLink to="/mypage">My nice link</FormLink>
       </FormWrapper>
     </BrowserRouter>
-  )
-}
+  );
+};
 
-describe('<Form />', () => {
-  test('Should render heading', () => {
-    const { container } = makeSut()
+describe("<Form />", () => {
+  test("Should render heading", () => {
+    const { container } = makeSut();
 
     expect(container.parentElement).toMatchInlineSnapshot(`
       .c0 a {
-        border-bottom: 0.1rem solid #429EA6;
-        color: #429EA6;
+        border-bottom: 0.1rem solid #005652;
+        color: #005652;
         font-size: 1.2rem;
         -webkit-text-decoration: none;
         text-decoration: none;
@@ -30,8 +30,8 @@ describe('<Form />', () => {
       }
 
       .c0 a:hover {
-        border-bottom: 0.1rem solid #5db7be;
-        color: #5db7be;
+        border-bottom: 0.1rem solid #008983;
+        color: #008983;
       }
 
       <body>
@@ -48,6 +48,6 @@ describe('<Form />', () => {
           </div>
         </div>
       </body>
-    `)
-  })
-})
+    `);
+  });
+});
