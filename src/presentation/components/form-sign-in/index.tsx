@@ -13,11 +13,11 @@ type FormSignInProps = {
 
 const FormSignIn: React.FC<FormSignInProps> = ({ validation }: FormSignInProps) => {
   const [loading] = useState(false)
-  const [value, setValue] = useState({ email: '' })
+  const [value, setValue] = useState({ email: '', password: '' })
 
   const handleChange = (field: string, value: string): void => {
     setValue((s) => ({ ...s, [field]: value }))
-    validation.validate('email', value)
+    validation.validate(field, value)
   }
 
   const handleSubmit = (e: React.FormEvent): void => {
@@ -33,7 +33,6 @@ const FormSignIn: React.FC<FormSignInProps> = ({ validation }: FormSignInProps) 
       <form onSubmit={handleSubmit} >
         <TextField
           type='email'
-          name='email'
           icon={<Email />}
           placeholder='Email'
           onInputChange={(v) => handleChange('email', v)}
@@ -42,6 +41,7 @@ const FormSignIn: React.FC<FormSignInProps> = ({ validation }: FormSignInProps) 
           type='password'
           icon={<Lock />}
           placeholder='Password'
+          onInputChange={(v) => handleChange('password', v)}
         />
         <S.ForgotPassword to='/reset-password'>Esqueceu a senha?</S.ForgotPassword>
         <Button size='large' type='submit' fullWidth >
