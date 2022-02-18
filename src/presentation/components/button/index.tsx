@@ -16,7 +16,7 @@ const Button: React.FC<ButtonProps> = ({
   ...props
 }: ButtonProps) => (
     <S.Wrapper size={size} fullWidth={fullWidth} {...props} >
-      { !!children && <span>{children}</span> }
+      { !!children && <>{children}</> }
     </S.Wrapper>
 )
 export default Button

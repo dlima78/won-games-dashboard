@@ -36,3 +36,14 @@ export const ForgotPassword = styled(Link)`
 export const FormLink = styled(Link)`
   
 `
+
+export const FormError = styled.div`
+  ${({ theme }) => css`
+    text-align: center;
+    color: red;
+    font-size: ${theme.font.sizes.small};
+    svg {
+      width: 1.6rem;
+    }
+  `}
+`

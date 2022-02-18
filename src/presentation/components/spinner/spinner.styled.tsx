@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components'
+import { darken } from 'polished'
 
 export const LoadingDot = styled.div``
 
@@ -6,7 +7,7 @@ export const Wrapper = styled.div`
   ${LoadingDot} {
     ${({ theme }) => css`
       border-radius: 50%;
-      background-color: ${theme.colors.primary};
+      background-color:  ${darken(0.2, theme.colors.primary)};
       display: inline-block;
       width: 1.5rem;
       height: 1.5rem;

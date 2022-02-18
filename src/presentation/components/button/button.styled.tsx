@@ -1,6 +1,6 @@
 import styled, { css, DefaultTheme } from 'styled-components'
 import { ButtonProps } from '.'
-import { darken } from 'polished'
+import { darken, lighten } from 'polished'
 
 type WrapperProps = Pick<ButtonProps, 'size' | 'fullWidth'>
 
@@ -40,6 +40,11 @@ export const Wrapper = styled.button<WrapperProps>`
 
     &:hover {
       background-color: ${darken(0.1, theme.colors.primary)};
+    }
+
+    &:disabled {
+      background-color: ${lighten(0.2, theme.colors.primary)};
+      cursor: not-allowed;
     }
 
     ${!!size && wrapperModifiers[size](theme)}
