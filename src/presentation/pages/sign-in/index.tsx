@@ -6,7 +6,7 @@ import FormSignIn from '@/presentation/components/form-sign-in'
 const SignIn: React.FC = () => {
   return (
     <Auth title='Sign-in'>
-      <FormSignIn />
+      <FormSignIn validation={undefined} />
     </Auth>
   )
 }

@@ -33,6 +33,7 @@ const TextField: React.FC<TextFieldProps> = ({
 
     !!onInputChange && onInputChange(newValue)
   }
+
   return (
     <S.Wrapper disabled={disabled} error={!!error} >
       {!!label && <S.Label htmlFor={labelFor} labelColor={labelColor} >{label}</S.Label>}
@@ -40,7 +41,7 @@ const TextField: React.FC<TextFieldProps> = ({
         {!!icon && <S.Icon iconOnRight={iconOnRight} >{icon}</S.Icon> }
         <S.Input type='text' onChange={onChange} value={value} disabled={disabled} {...props} />
       </S.InputWrapper>
-        {!!error && <S.ErrorMessage>{error}</S.ErrorMessage>}
+        {!!error && <S.ErrorMessage data-testid='err' >{error}</S.ErrorMessage>}
     </S.Wrapper>
   )
 }
