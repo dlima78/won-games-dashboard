@@ -77,4 +77,15 @@ describe('<FormSignIn />', () => {
     expect(validationSpy.fieldName).toBe('password')
     expect(validationSpy.fieldValue).toBe(password)
   })
+
+  test('should show email error if Validation fails', () => {
+    const { validationSpy } = makeSut()
+
+    const errorMessage = faker.random.words()
+    validationSpy.errorMessage = errorMessage
+    const emailInput = screen.getByPlaceholderText(/email/i)
+    const email = faker.internet.email()
+    userEvent.type(emailInput, email)
+    expect(screen.getByTestId('err')).toBeInTheDocument()
+  })
 })
