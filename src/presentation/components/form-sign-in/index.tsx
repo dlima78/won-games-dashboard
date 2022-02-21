@@ -22,6 +22,9 @@ const FormSignIn: React.FC<FormSignInProps> = ({ validation }: FormSignInProps) 
 
   useEffect(() => {
     setState((s) => ({ ...s, emailError: validation.validate('email', state.email) }))
+    if (state.emailError) {
+      setState((s) => ({ ...s, isDisabled: true }))
+    }
   }, [state.email])
   useEffect(() => {
     setState((s) => ({ ...s, passwordError: validation.validate('password', state.password) }))
@@ -31,8 +34,9 @@ const FormSignIn: React.FC<FormSignInProps> = ({ validation }: FormSignInProps) 
     setState((s) => ({ ...s, [field]: value }))
   }
 
-  const handleSubmit = (e: React.FormEvent): void => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault()
+    setState({ ...state, loading: true })
   }
 
   return (
@@ -56,7 +60,7 @@ const FormSignIn: React.FC<FormSignInProps> = ({ validation }: FormSignInProps) 
             onInputChange={(v) => handleChange('password', v)}
           />
           <S.ForgotPassword to='/reset-password'>Esqueceu a senha?</S.ForgotPassword>
-          <Button size='large' type='submit' fullWidth disabled>
+          <Button size='large' type='submit' fullWidth >
           {state.loading ? <Spinner /> : <span>Entrar</span>}
           </Button>
           <S.FormLink to='/sign-up'>Criar conta</S.FormLink>
