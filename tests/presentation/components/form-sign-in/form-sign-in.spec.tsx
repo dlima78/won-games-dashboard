@@ -44,6 +44,7 @@ describe('<FormSignIn />', () => {
     expect(screen.getByPlaceholderText(/password/i)).toBeInTheDocument()
     const button = screen.getByRole('button', { name: /Entrar/i })
     expect(button).toBeInTheDocument()
+    expect(button).toBeDisabled()
     expect(screen.queryByTestId('spinner')).not.toBeInTheDocument()
   })
 
