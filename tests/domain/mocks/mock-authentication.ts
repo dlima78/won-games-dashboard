@@ -8,3 +8,12 @@ export const mockAuthenticationParams = (): Authentication.Params => ({
 })
 
 export const mockAuthenticationModel = (): Authentication.Model => mockAccountModel()
+
+export class AuthenticationSpy implements Authentication {
+  account = mockAccountModel()
+  params: Authentication.Params
+  async auth (params: Authentication.Params): Promise<Authentication.Model> {
+    this.params = params
+    return await Promise.resolve(this.account)
+  }
+}

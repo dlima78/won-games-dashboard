@@ -6,34 +6,13 @@ import { Router } from 'react-router-dom'
 import { createMemoryHistory } from 'history'
 import userEvent from '@testing-library/user-event'
 import faker from '@faker-js/faker'
-import { Validation } from '@/presentation/protocols'
-import { Authentication } from '@/domain/usecases'
-import { mockAccountModel } from '@/../tests/domain/mocks'
+import { AuthenticationSpy } from '@/tests/domain/mocks/mock-authentication'
+import { ValidationSpy } from '@/tests/presentation/mocks/mock-validation'
 
 const history = createMemoryHistory()
 type SutTypes = {
   validationSpy: ValidationSpy
   authenticationSpy: AuthenticationSpy
-}
-
-class AuthenticationSpy implements Authentication {
-  account = mockAccountModel()
-  params: Authentication.Params
-  async auth (params: Authentication.Params): Promise<Authentication.Model> {
-    this.params = params
-    return await Promise.resolve(this.account)
-  }
-}
-
-class ValidationSpy implements Validation {
-  errorMessage: string
-  fieldName: string
-  fieldValue: string
-  validate (fieldName: string, fieldValue: string): string {
-    this.fieldName = fieldName
-    this.fieldValue = fieldValue
-    return this.errorMessage
-  }
 }
 
 const makeSut = (): SutTypes => {
