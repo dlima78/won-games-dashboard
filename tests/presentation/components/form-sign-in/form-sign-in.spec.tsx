@@ -86,6 +86,17 @@ describe('<FormSignIn />', () => {
     const emailInput = screen.getByPlaceholderText(/email/i)
     const email = faker.internet.email()
     userEvent.type(emailInput, email)
-    expect(screen.getByTestId('err')).toBeInTheDocument()
+    expect(screen.getByText(errorMessage)).toBeInTheDocument()
+  })
+
+  test('should show password error if Validation fails', () => {
+    const { validationSpy } = makeSut()
+
+    const errorMessage = faker.random.words()
+    validationSpy.errorMessage = errorMessage
+    const passwordInput = screen.getByPlaceholderText(/password/i)
+    const password = faker.internet.password()
+    userEvent.type(passwordInput, password)
+    expect(screen.getByText(errorMessage)).toBeInTheDocument()
   })
 })
