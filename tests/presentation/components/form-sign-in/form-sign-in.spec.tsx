@@ -38,13 +38,12 @@ const makeSut = (): SutTypes => {
 
 describe('<FormSignIn />', () => {
   test('Should render the form with initial state', () => {
-    makeSut()
-
+    const { validationSpy } = makeSut()
+    validationSpy.errorMessage = null
     expect(screen.getByPlaceholderText(/email/i)).toBeInTheDocument()
     expect(screen.getByPlaceholderText(/password/i)).toBeInTheDocument()
     const button = screen.getByRole('button', { name: /Entrar/i })
     expect(button).toBeInTheDocument()
-    expect(button).toBeDisabled()
     expect(screen.queryByTestId('spinner')).not.toBeInTheDocument()
   })
 
@@ -99,5 +98,18 @@ describe('<FormSignIn />', () => {
     const password = faker.internet.password()
     userEvent.type(passwordInput, password)
     expect(screen.getByText(errorMessage)).toBeInTheDocument()
+  })
+
+  test('should show spínner on submit', () => {
+    makeSut()
+    const emailInput = screen.getByPlaceholderText(/email/i)
+    const email = faker.internet.email()
+    userEvent.type(emailInput, email)
+    const passwordInput = screen.getByPlaceholderText(/password/i)
+    const password = faker.internet.password()
+    userEvent.type(passwordInput, password)
+    const button = screen.getByRole('button', { name: /Entrar/i })
+    userEvent.click(button)
+    expect(screen.getByTestId('spinner')).toBeInTheDocument()
   })
 })
