@@ -56,7 +56,7 @@ const FormSignIn: React.FC<FormSignInProps> = ({ validation }: FormSignInProps) 
             onInputChange={(v) => handleChange('password', v)}
           />
           <S.ForgotPassword to='/reset-password'>Esqueceu a senha?</S.ForgotPassword>
-          <Button size='large' type='submit' fullWidth >
+          <Button size='large' type='submit' fullWidth disabled>
           {state.loading ? <Spinner /> : <span>Entrar</span>}
           </Button>
           <S.FormLink to='/sign-up'>Criar conta</S.FormLink>
