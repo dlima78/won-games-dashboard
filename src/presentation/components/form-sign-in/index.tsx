@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from 'react'
-import { Email } from '@styled-icons/material/Email'
 import { Lock, ErrorOutline } from '@styled-icons/material'
+import { Authentication } from '@/domain/usecases'
+import { Validation } from '@/presentation/protocols'
+import { Email } from '@styled-icons/material/Email'
 import TextField from '@/presentation/components/text-field'
 import Button from '@/presentation/components/button'
-import * as S from '@/presentation/components/form'
 import Spinner from '../spinner'
-import { Validation } from '@/presentation/protocols'
+
+import * as S from '@/presentation/components/form'
 
 type FormSignInProps = {
   validation: Validation
+  authentication: Authentication
 }
 
-const FormSignIn: React.FC<FormSignInProps> = ({ validation }: FormSignInProps) => {
+const FormSignIn: React.FC<FormSignInProps> = ({ validation, authentication }: FormSignInProps) => {
   const [state, setState] = useState({
     loading: false,
     email: '',
@@ -34,9 +37,13 @@ const FormSignIn: React.FC<FormSignInProps> = ({ validation }: FormSignInProps) 
     setState((s) => ({ ...s, [field]: value }))
   }
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault()
     setState({ ...state, loading: true })
+    await authentication.auth({
+      email: state.email,
+      password: state.password
+    })
   }
 
   return (
