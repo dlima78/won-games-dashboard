@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Email } from '@styled-icons/material/Email'
 import { Lock, ErrorOutline } from '@styled-icons/material'
 import TextField from '@/presentation/components/text-field'
@@ -16,15 +16,19 @@ const FormSignIn: React.FC<FormSignInProps> = ({ validation }: FormSignInProps) 
     loading: false,
     email: '',
     password: '',
-    emailError: ''
+    emailError: '',
+    passwordError: ''
   })
 
+  useEffect(() => {
+    setState((s) => ({ ...s, emailError: validation.validate('email', state.email) }))
+  }, [state.email])
+  useEffect(() => {
+    setState((s) => ({ ...s, passwordError: validation.validate('password', state.password) }))
+  }, [state.password])
+
   const handleChange = (field: string, value: string): void => {
-    setState((s) => ({
-      ...s,
-      [field]: value,
-      emailError: validation.validate(field, value)
-    }))
+    setState((s) => ({ ...s, [field]: value }))
   }
 
   const handleSubmit = (e: React.FormEvent): void => {
@@ -45,6 +49,7 @@ const FormSignIn: React.FC<FormSignInProps> = ({ validation }: FormSignInProps) 
             onInputChange={(v) => handleChange('email', v)}
           />
           <TextField
+            error={state.passwordError}
             type='password'
             icon={<Lock />}
             placeholder='Password'

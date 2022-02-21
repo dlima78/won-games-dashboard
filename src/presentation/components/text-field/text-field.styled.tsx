@@ -92,7 +92,7 @@ export const Icon = styled.div<WrapperProps>`
   `}
 `
 
-export const ErrorMessage = styled.span`
+export const ErrorMessage = styled.p`
   ${({ theme }) => css`
     color: ${theme.colors.red};
     font-size: ${theme.font.sizes.xsmall};
