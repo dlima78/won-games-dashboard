@@ -131,5 +131,6 @@ describe('<FormSignIn />', () => {
       'accessToken',
       authenticationSpy.account.accessToken
     )
+    expect(history.location.pathname).toBe('/')
   })
 })
