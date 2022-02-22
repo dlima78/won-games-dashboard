@@ -1,13 +1,14 @@
 import React from 'react'
 import FormSignIn from '@/presentation/components/form-sign-in'
 import { renderWithTheme } from '@/utils/helper'
-import { screen } from '@testing-library/react'
+import { screen, waitFor } from '@testing-library/react'
 import { Router } from 'react-router-dom'
 import { createMemoryHistory } from 'history'
 import userEvent from '@testing-library/user-event'
 import faker from '@faker-js/faker'
 import { AuthenticationSpy } from '@/tests/domain/mocks/mock-authentication'
 import { ValidationSpy } from '@/tests/presentation/mocks/mock-validation'
+import { InvalidCredentialsError } from '@/domain/errors'
 
 const history = createMemoryHistory()
 type SutTypes = {
@@ -106,5 +107,15 @@ describe('<FormSignIn />', () => {
     const password = faker.internet.password()
     simulateValidSubmit(email, password)
     expect(authenticationSpy.params).toEqual({ email, password })
+  })
+
+  test('should present error if Authentication fails', async () => {
+    const { authenticationSpy } = makeSut()
+    const error = new InvalidCredentialsError()
+    jest.spyOn(authenticationSpy, 'auth').mockRejectedValueOnce(error)
+    simulateValidSubmit()
+    await waitFor(() => screen.getByRole('link', { name: /criar conta/i }))
+    expect(screen.getByText(error.message)).toBeInTheDocument()
+    expect(screen.queryByTestId('spinner')).not.toBeInTheDocument()
   })
 })
