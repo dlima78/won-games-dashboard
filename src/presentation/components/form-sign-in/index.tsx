@@ -8,6 +8,7 @@ import Button from '@/presentation/components/button'
 import Spinner from '../spinner'
 
 import * as S from '@/presentation/components/form'
+import { useNavigate } from 'react-router-dom'
 
 type FormSignInProps = {
   validation: Validation
@@ -15,6 +16,7 @@ type FormSignInProps = {
 }
 
 const FormSignIn: React.FC<FormSignInProps> = ({ validation, authentication }: FormSignInProps) => {
+  const navigate = useNavigate()
   const [state, setState] = useState({
     loading: false,
     email: '',
@@ -50,6 +52,7 @@ const FormSignIn: React.FC<FormSignInProps> = ({ validation, authentication }: F
         password: state.password
       })
       localStorage.setItem('accessToken', account.accessToken)
+      navigate('/')
     } catch (error) {
       setState({
         ...state,
