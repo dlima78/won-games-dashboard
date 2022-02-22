@@ -9,6 +9,7 @@ import faker from '@faker-js/faker'
 import { AuthenticationSpy } from '@/tests/domain/mocks/mock-authentication'
 import { ValidationSpy } from '@/tests/presentation/mocks/mock-validation'
 import { InvalidCredentialsError } from '@/domain/errors'
+import 'jest-localstorage-mock'
 
 const history = createMemoryHistory()
 type SutTypes = {
@@ -46,6 +47,9 @@ const populateField = (fieldName: string, value = faker.random.word()): void => 
 }
 
 describe('<FormSignIn />', () => {
+  beforeEach(() => {
+    localStorage.clear()
+  })
   test('Should render the form with initial state', () => {
     makeSut()
     expect(screen.getByPlaceholderText(/email/i)).toBeInTheDocument()
@@ -117,5 +121,15 @@ describe('<FormSignIn />', () => {
     await waitFor(() => screen.getByRole('link', { name: /criar conta/i }))
     expect(screen.getByText(error.message)).toBeInTheDocument()
     expect(screen.queryByTestId('spinner')).not.toBeInTheDocument()
+  })
+
+  test('should present error if Authentication fails', async () => {
+    const { authenticationSpy } = makeSut()
+    simulateValidSubmit()
+    await waitFor(() => screen.getByRole('link', { name: /criar conta/i }))
+    expect(localStorage.setItem).toHaveBeenCalledWith(
+      'accessToken',
+      authenticationSpy.account.accessToken
+    )
   })
 })
