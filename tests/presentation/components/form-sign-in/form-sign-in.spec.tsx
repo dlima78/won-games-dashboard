@@ -29,12 +29,27 @@ const makeSut = (): SutTypes => {
   }
 }
 
+const simulateValidSubmit = (
+  email = faker.internet.email(),
+  password = faker.internet.password()
+): void => {
+  populateField('Email', email)
+  populateField('Password', password)
+  const button = screen.getByRole('button', { name: /Entrar/i })
+  userEvent.click(button)
+}
+
+const populateField = (fieldName: string, value = faker.random.word()): void => {
+  const input = screen.getByPlaceholderText(fieldName)
+  userEvent.type(input, value)
+}
+
 describe('<FormSignIn />', () => {
   test('Should render the form with initial state', () => {
-    const { validationSpy } = makeSut()
-    validationSpy.errorMessage = null
+    makeSut()
     expect(screen.getByPlaceholderText(/email/i)).toBeInTheDocument()
     expect(screen.getByPlaceholderText(/password/i)).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: /esqueceu a senha\?/i })).toBeInTheDocument()
     const button = screen.getByRole('button', { name: /Entrar/i })
     expect(button).toBeInTheDocument()
     expect(screen.queryByTestId('spinner')).not.toBeInTheDocument()
@@ -47,78 +62,49 @@ describe('<FormSignIn />', () => {
     expect(history.location.pathname).toBe('/sign-up')
   })
 
-  test('should render forgot password link ', () => {
-    makeSut()
-
-    expect(screen.getByRole('link', { name: /esqueceu a senha\?/i })).toBeInTheDocument()
-  })
-
   test('should call Validation with correct email', () => {
     const { validationSpy } = makeSut()
-    const emailInput = screen.getByPlaceholderText(/email/i)
     const email = faker.internet.email()
-    userEvent.type(emailInput, email)
+    populateField('Email', email)
     expect(validationSpy.fieldName).toBe('email')
     expect(validationSpy.fieldValue).toBe(email)
   })
 
   test('should call Validation with correct password', () => {
     const { validationSpy } = makeSut()
-    const passwordInput = screen.getByPlaceholderText(/password/i)
     const password = faker.internet.password()
-    userEvent.type(passwordInput, password)
+    populateField('Password', password)
     expect(validationSpy.fieldName).toBe('password')
     expect(validationSpy.fieldValue).toBe(password)
   })
 
   test('should show email error if Validation fails', () => {
     const { validationSpy } = makeSut()
-
     const errorMessage = faker.random.words()
     validationSpy.errorMessage = errorMessage
-    const emailInput = screen.getByPlaceholderText(/email/i)
-    const email = faker.internet.email()
-    userEvent.type(emailInput, email)
+    populateField('Email')
     expect(screen.getByText(errorMessage)).toBeInTheDocument()
   })
 
   test('should show password error if Validation fails', () => {
     const { validationSpy } = makeSut()
-
     const errorMessage = faker.random.words()
     validationSpy.errorMessage = errorMessage
-    const passwordInput = screen.getByPlaceholderText(/password/i)
-    const password = faker.internet.password()
-    userEvent.type(passwordInput, password)
+    populateField('Password')
     expect(screen.getByText(errorMessage)).toBeInTheDocument()
   })
 
   test('should show spínner on submit', () => {
     makeSut()
-    const emailInput = screen.getByPlaceholderText(/email/i)
-    const email = faker.internet.email()
-    userEvent.type(emailInput, email)
-    const passwordInput = screen.getByPlaceholderText(/password/i)
-    const password = faker.internet.password()
-    userEvent.type(passwordInput, password)
-    const button = screen.getByRole('button', { name: /Entrar/i })
-    userEvent.click(button)
+    simulateValidSubmit()
     expect(screen.getByTestId('spinner')).toBeInTheDocument()
   })
 
   test('should show call Authentication with correct values', () => {
     const { authenticationSpy } = makeSut()
-    const emailInput = screen.getByPlaceholderText(/email/i)
     const email = faker.internet.email()
-    userEvent.type(emailInput, email)
-    const passwordInput = screen.getByPlaceholderText(/password/i)
     const password = faker.internet.password()
-    userEvent.type(passwordInput, password)
-    const button = screen.getByRole('button', { name: /Entrar/i })
-    userEvent.click(button)
-    expect(authenticationSpy.params).toEqual({
-      email,
-      password
-    })
+    simulateValidSubmit(email, password)
+    expect(authenticationSpy.params).toEqual({ email, password })
   })
 })
