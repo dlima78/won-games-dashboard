@@ -31,14 +31,15 @@ const makeSut = (): SutTypes => {
   }
 }
 
-const simulateValidSubmit = (
+const simulateValidSubmit = async (
   email = faker.internet.email(),
   password = faker.internet.password()
-): void => {
+): Promise<void> => {
   populateField('Email', email)
   populateField('Password', password)
   const button = screen.getByRole('button', { name: /Entrar/i })
   userEvent.click(button)
+  await waitFor(() => screen.getByRole('link', { name: /criar conta/i }))
 }
 
 const populateField = (fieldName: string, value = faker.random.word()): void => {
@@ -99,17 +100,17 @@ describe('<FormSignIn />', () => {
     expect(screen.getByText(errorMessage)).toBeInTheDocument()
   })
 
-  test('should show spínner on submit', () => {
+  test('should show spínner on submit', async () => {
     makeSut()
-    simulateValidSubmit()
+    await simulateValidSubmit()
     expect(screen.getByTestId('spinner')).toBeInTheDocument()
   })
 
-  test('should show call Authentication with correct values', () => {
+  test('should show call Authentication with correct values', async () => {
     const { authenticationSpy } = makeSut()
     const email = faker.internet.email()
     const password = faker.internet.password()
-    simulateValidSubmit(email, password)
+    await simulateValidSubmit(email, password)
     expect(authenticationSpy.params).toEqual({ email, password })
   })
 
@@ -117,16 +118,14 @@ describe('<FormSignIn />', () => {
     const { authenticationSpy } = makeSut()
     const error = new InvalidCredentialsError()
     jest.spyOn(authenticationSpy, 'auth').mockRejectedValueOnce(error)
-    simulateValidSubmit()
-    await waitFor(() => screen.getByRole('link', { name: /criar conta/i }))
+    await simulateValidSubmit()
     expect(screen.getByText(error.message)).toBeInTheDocument()
     expect(screen.queryByTestId('spinner')).not.toBeInTheDocument()
   })
 
   test('should present error if Authentication fails', async () => {
     const { authenticationSpy } = makeSut()
-    simulateValidSubmit()
-    await waitFor(() => screen.getByRole('link', { name: /criar conta/i }))
+    await simulateValidSubmit()
     expect(localStorage.setItem).toHaveBeenCalledWith(
       'accessToken',
       authenticationSpy.account.accessToken
