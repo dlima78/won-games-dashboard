@@ -20,7 +20,8 @@ const FormSignIn: React.FC<FormSignInProps> = ({ validation, authentication }: F
     email: '',
     password: '',
     emailError: '',
-    passwordError: ''
+    passwordError: '',
+    mainError: ''
   })
 
   useEffect(() => {
@@ -39,18 +40,29 @@ const FormSignIn: React.FC<FormSignInProps> = ({ validation, authentication }: F
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault()
-    setState({ ...state, loading: true })
-    await authentication.auth({
-      email: state.email,
-      password: state.password
-    })
+    try {
+      if (state.loading || state.emailError || state.passwordError) {
+        return
+      }
+      setState({ ...state, loading: true })
+      await authentication.auth({
+        email: state.email,
+        password: state.password
+      })
+    } catch (error) {
+      setState({
+        ...state,
+        loading: false,
+        mainError: error.message
+      })
+    }
   }
 
   return (
-      <S.FormWrapper>
-        <S.FormError>
-          <ErrorOutline /> Formulário inválido
-        </S.FormError>
+      <S.FormWrapper >
+        {state.mainError && <S.FormError data-testid='main-error'>
+          <ErrorOutline /> {state.mainError}
+        </S.FormError> }
         <form onSubmit={handleSubmit} >
           <TextField
             error={state.emailError}
