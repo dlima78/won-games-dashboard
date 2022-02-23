@@ -29,4 +29,11 @@ describe('ValidationComposite', () => {
     const error = sut.validate(fieldName, faker.random.word())
     expect(error).toBe(errorMessage)
   })
+
+  test('should return error if validation fails', () => {
+    const fieldName = faker.database.column()
+    const { sut } = makeSut(fieldName)
+    const error = sut.validate(fieldName, faker.random.word())
+    expect(error).toBeFalsy()
+  })
 })
