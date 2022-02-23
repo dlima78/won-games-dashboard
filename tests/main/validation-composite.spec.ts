@@ -25,6 +25,7 @@ describe('ValidationComposite', () => {
     const { sut, fieldValidationSpy } = makeSut(fieldName)
     const errorMessage = faker.random.word()
     fieldValidationSpy[0].error = new Error(errorMessage)
+    fieldValidationSpy[1].error = new Error(faker.random.word())
     const error = sut.validate(fieldName, faker.random.word())
     expect(error).toBe(errorMessage)
   })
