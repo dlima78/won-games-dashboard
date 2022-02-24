@@ -24,4 +24,14 @@ describe('ValidationBuilder', () => {
     const validations = ValidationBuilder.field(field).min(5).build()
     expect(validations).toEqual([new MinLengthValidation(field, 5)])
   })
+
+  test('should return list of validations', () => {
+    const field = faker.random.word()
+    const validations = ValidationBuilder.field(field).required().min(5).email().build()
+    expect(validations).toEqual([
+      new RequiredFieldValidation(field),
+      new MinLengthValidation(field, 5),
+      new EmailValidation(field)
+    ])
+  })
 })
