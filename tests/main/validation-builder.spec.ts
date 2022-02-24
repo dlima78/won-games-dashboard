@@ -1,7 +1,8 @@
 import { ValidationBuilder } from '@/main/builders'
 import {
   EmailValidation,
-  RequiredFieldValidation
+  RequiredFieldValidation,
+  MinLengthValidation
 } from '@/validation/validators'
 import faker from '@faker-js/faker'
 
@@ -16,5 +17,11 @@ describe('ValidationBuilder', () => {
     const field = faker.random.word()
     const validations = ValidationBuilder.field(field).email().build()
     expect(validations).toEqual([new EmailValidation(field)])
+  })
+
+  test('should return MinLengthValidation', () => {
+    const field = faker.random.word()
+    const validations = ValidationBuilder.field(field).min(5).build()
+    expect(validations).toEqual([new MinLengthValidation(field, 5)])
   })
 })
