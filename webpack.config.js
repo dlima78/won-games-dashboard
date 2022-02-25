@@ -1,4 +1,5 @@
 const path = require('path')
+const { DefinePlugin } = require('webpack')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 module.exports = {
@@ -37,6 +38,9 @@ module.exports = {
     port: 8080
   },
   plugins: [
-    new CleanWebpackPlugin()
+    new CleanWebpackPlugin(),
+    new DefinePlugin({
+      'process.env.API_URL': '`http://localhost:5050/api'
+    })
   ]
 }
