@@ -1,0 +1,1 @@
+[![Coverage Status](https://coveralls.io/repos/github/dlima78/won-games-dashboard/badge.svg?branch=main)](https://coveralls.io/github/dlima78/won-games-dashboard?branch=main)
