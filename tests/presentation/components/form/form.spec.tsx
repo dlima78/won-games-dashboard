@@ -1,8 +1,8 @@
-import React from "react";
-import { FormLink, FormWrapper } from "@/presentation/components/form";
-import { renderWithTheme } from "@/utils/helper";
-import { RenderResult } from "@testing-library/react";
-import { BrowserRouter } from "react-router-dom";
+import React from 'react'
+import { FormLink, FormWrapper } from '@/presentation/components/form'
+import { renderWithTheme } from '@/utils/helper'
+import { RenderResult } from '@testing-library/react'
+import { BrowserRouter } from 'react-router-dom'
 
 const makeSut = (): RenderResult => {
   return renderWithTheme(
@@ -11,12 +11,12 @@ const makeSut = (): RenderResult => {
         <FormLink to="/mypage">My nice link</FormLink>
       </FormWrapper>
     </BrowserRouter>
-  );
-};
+  )
+}
 
-describe("<Form />", () => {
-  test("Should render heading", () => {
-    const { container } = makeSut();
+describe('<Form />', () => {
+  test('Should render heading', () => {
+    const { container } = makeSut()
 
     expect(container.parentElement).toMatchInlineSnapshot(`
       .c0 a {
@@ -48,6 +48,6 @@ describe("<Form />", () => {
           </div>
         </div>
       </body>
-    `);
-  });
-});
+    `)
+  })
+})

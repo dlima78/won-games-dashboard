@@ -5,6 +5,7 @@ module.exports = {
     '!<rootDir>/src/main/**/*',
     '!<rootDir>/src/**/index.ts',
     '!<rootDir>/src/**/*.stories.tsx',
+    '!<rootDir>/src/presentation/pages/**/*.tsx',
     '!<rootDir>/src/presentation/styles/**/*.ts',
     '!**/*.d.ts'
   ],
