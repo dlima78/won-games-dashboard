@@ -9,7 +9,7 @@
     "test:watch": "npm test -- --watch",
     "test:staged": "npm test -- --findRelatedTests",
     "test:ci": "npm test -- --coverage",
-    "test:coveralls": "npm run test:ci && coveralls < coverage/lcov.info",
+    "test:coveralls": "npm run test:ci && npm run coveralls",
     "lint:fix": "npm run lint -- --fix",
     "plop": "plop",
     "prepare": "husky install",
