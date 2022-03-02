@@ -1,5 +1,6 @@
 import React from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
+import { MemoryRouter } from 'react-router-dom'
 
 import FormSignIn from '.'
 
@@ -8,8 +9,10 @@ export default {
   component: FormSignIn
 } as ComponentMeta<typeof FormSignIn>
 
-export const Default: ComponentStory<typeof FormSignIn> = () => (
+export const Default: ComponentStory<typeof FormSignIn> = (args) => (
   <div style={{ width: 300, margin: 'auto' }}>
-    <FormSignIn validation={null} authentication={null} saveAccessToken={null} />
+    <MemoryRouter>
+      <FormSignIn {...args} />
+    </MemoryRouter>
   </div>
 )
