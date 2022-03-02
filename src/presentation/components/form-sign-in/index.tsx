@@ -1,21 +1,27 @@
 import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Lock, ErrorOutline } from '@styled-icons/material'
-import { Authentication } from '@/domain/usecases'
+
+import { Authentication, SaveAccessToken } from '@/domain/usecases'
 import { Validation } from '@/presentation/protocols'
 import { Email } from '@styled-icons/material/Email'
 import TextField from '@/presentation/components/text-field'
 import Button from '@/presentation/components/button'
-import Spinner from '../spinner'
+import Spinner from '@/presentation/components/spinner'
 
 import * as S from '@/presentation/components/form'
-import { useNavigate } from 'react-router-dom'
 
 type FormSignInProps = {
   validation: Validation
   authentication: Authentication
+  saveAccessToken: SaveAccessToken
 }
 
-const FormSignIn: React.FC<FormSignInProps> = ({ validation, authentication }: FormSignInProps) => {
+const FormSignIn: React.FC<FormSignInProps> = ({
+  validation,
+  authentication,
+  saveAccessToken
+}: FormSignInProps) => {
   const navigate = useNavigate()
   const [state, setState] = useState({
     loading: false,
@@ -51,7 +57,7 @@ const FormSignIn: React.FC<FormSignInProps> = ({ validation, authentication }: F
         email: state.email,
         password: state.password
       })
-      localStorage.setItem('accessToken', account.accessToken)
+      await saveAccessToken.save(account.accessToken)
       navigate('/')
     } catch (error) {
       setState({
