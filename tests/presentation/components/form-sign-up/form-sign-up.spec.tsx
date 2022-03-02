@@ -16,7 +16,7 @@ const makeSut = (): RenderResult => {
 }
 
 describe('<FormSignUp />', () => {
-  test('Should render the form', () => {
+  test('Should render the form with initial state', () => {
     makeSut()
 
     expect(screen.getByPlaceholderText(/nome/i)).toBeInTheDocument()
@@ -24,6 +24,7 @@ describe('<FormSignUp />', () => {
     expect(screen.getByPlaceholderText('Senha')).toBeInTheDocument()
     expect(screen.getByPlaceholderText('Confirme a senha')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /Cadastrar/i })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: /já possui conta\?/i })).toBeInTheDocument()
   })
 
   test('Should go to signin page', () => {
