@@ -10,6 +10,6 @@ export default {
 
 export const Default: ComponentStory<typeof FormSignIn> = () => (
   <div style={{ width: 300, margin: 'auto' }}>
-    <FormSignIn validation={null} authentication={null} />
+    <FormSignIn validation={null} authentication={null} saveAccessToken={null} />
   </div>
 )
