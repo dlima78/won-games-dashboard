@@ -1,4 +1,4 @@
-import { LocalSaveAccessToken } from '@/data/usecases/local-access-token'
+import { LocalSaveAccessToken } from '@/data/usecases'
 import { SaveAccessToken } from '@/domain/usecases'
 import { makeLocalStorageAdapter } from '@/main/factories/cache'
 

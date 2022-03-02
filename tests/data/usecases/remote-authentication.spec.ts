@@ -1,5 +1,5 @@
 import { HttpStatusCode } from '@/data/protocols/http'
-import { RemoteAuthentication } from '@/data/usecases/authentication/'
+import { RemoteAuthentication } from '@/data/usecases'
 import { InvalidCredentialsError, UnexpectedError } from '@/domain/errors'
 import { Authentication } from '@/domain/usecases'
 import { HttpPostClientSpy } from '@/../tests/data/mocks'
