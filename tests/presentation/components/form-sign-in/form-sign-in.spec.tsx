@@ -1,33 +1,36 @@
 import React from 'react'
+import userEvent from '@testing-library/user-event'
+import faker from '@faker-js/faker'
+
 import FormSignIn from '@/presentation/components/form-sign-in'
 import { renderWithTheme } from '@/utils/helper'
 import { screen, waitFor } from '@testing-library/react'
 import { Router } from 'react-router-dom'
 import { createMemoryHistory } from 'history'
-import userEvent from '@testing-library/user-event'
-import faker from '@faker-js/faker'
-import { AuthenticationSpy } from '@/tests/domain/mocks/mock-authentication'
-import { ValidationSpy } from '@/tests/presentation/mocks/mock-validation'
+import { AuthenticationSpy } from '@/tests/domain/mocks'
+import { ValidationSpy, SaveAccessTokenMock } from '@/tests/presentation/mocks'
 import { InvalidCredentialsError } from '@/domain/errors'
-import 'jest-localstorage-mock'
 
 const history = createMemoryHistory()
 type SutTypes = {
   validationSpy: ValidationSpy
   authenticationSpy: AuthenticationSpy
+  saveAccessTokenMock: SaveAccessTokenMock
 }
 
 const makeSut = (): SutTypes => {
+  const saveAccessTokenMock = new SaveAccessTokenMock()
   const validationSpy = new ValidationSpy()
   const authenticationSpy = new AuthenticationSpy()
   renderWithTheme(
     <Router navigator={history} location='/sing-in' >
-      <FormSignIn validation={validationSpy} authentication={authenticationSpy} />
+      <FormSignIn validation={validationSpy} authentication={authenticationSpy} saveAccessToken={saveAccessTokenMock} />
     </Router>
   )
   return {
     validationSpy,
-    authenticationSpy
+    authenticationSpy,
+    saveAccessTokenMock
   }
 }
 
@@ -48,9 +51,6 @@ const populateField = (fieldName: string, value = faker.random.word()): void => 
 }
 
 describe('<FormSignIn />', () => {
-  beforeEach(() => {
-    localStorage.clear()
-  })
   test('Should render the form with initial state', () => {
     makeSut()
     expect(screen.getByPlaceholderText(/email/i)).toBeInTheDocument()
@@ -123,13 +123,10 @@ describe('<FormSignIn />', () => {
     expect(screen.queryByTestId('spinner')).not.toBeInTheDocument()
   })
 
-  test('should present error if Authentication fails', async () => {
-    const { authenticationSpy } = makeSut()
+  test('should call SaveAccess token on success', async () => {
+    const { authenticationSpy, saveAccessTokenMock } = makeSut()
     await simulateValidSubmit()
-    expect(localStorage.setItem).toHaveBeenCalledWith(
-      'accessToken',
-      authenticationSpy.account.accessToken
-    )
+    expect(saveAccessTokenMock.accessToken).toBe(authenticationSpy.account.accessToken)
     expect(history.location.pathname).toBe('/')
   })
 })
