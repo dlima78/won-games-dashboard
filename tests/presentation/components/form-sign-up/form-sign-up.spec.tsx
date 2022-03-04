@@ -81,4 +81,12 @@ describe('<FormSignUp />', () => {
     populateField('Confirme a senha')
     expect(screen.getByText(errorMessage)).toBeInTheDocument()
   })
+
+  test('should call Validation with correct name', () => {
+    const { validationSpy } = makeSut()
+    const name = faker.name.findName()
+    populateField('Nome', name)
+    expect(validationSpy.fieldName).toBe('name')
+    expect(validationSpy.fieldValue).toBe(name)
+  })
 })
