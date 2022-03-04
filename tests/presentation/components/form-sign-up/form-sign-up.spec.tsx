@@ -1,18 +1,34 @@
 import React from 'react'
 import FormSignUp from '@/presentation/components/form-sign-up'
 import { renderWithTheme } from '@/utils/helper'
-import { RenderResult, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 import { createMemoryHistory } from 'history'
 import { Router } from 'react-router-dom'
 import userEvent from '@testing-library/user-event'
+import { ValidationSpy } from '@/tests/presentation/mocks'
+import faker from '@faker-js/faker'
 
 const history = createMemoryHistory()
-const makeSut = (): RenderResult => {
-  return renderWithTheme(
+
+type SutTypes = {
+  validationSpy: ValidationSpy
+}
+
+const makeSut = (): SutTypes => {
+  const validationSpy = new ValidationSpy()
+  renderWithTheme(
     <Router navigator={history} location='/sing-up' >
-      <FormSignUp />
+      <FormSignUp validation={validationSpy} />
     </Router>
   )
+  return {
+    validationSpy
+  }
+}
+
+const populateField = (fieldName: string, value = faker.random.word()): void => {
+  const input = screen.getByPlaceholderText(fieldName)
+  userEvent.type(input, value)
 }
 
 describe('<FormSignUp />', () => {
@@ -32,5 +48,13 @@ describe('<FormSignUp />', () => {
     expect(screen.getByRole('link', { name: 'Já possui conta?' })).toBeInTheDocument()
     userEvent.click(screen.getByRole('link', { name: 'Já possui conta?' }))
     expect(history.location.pathname).toBe('/sign-in')
+  })
+
+  test('should show name error if Validation fails', () => {
+    const { validationSpy } = makeSut()
+    const errorMessage = faker.random.words()
+    validationSpy.errorMessage = errorMessage
+    populateField('Nome')
+    expect(screen.getByText(errorMessage)).toBeInTheDocument()
   })
 })
