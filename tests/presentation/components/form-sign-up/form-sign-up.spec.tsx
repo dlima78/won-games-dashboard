@@ -57,4 +57,12 @@ describe('<FormSignUp />', () => {
     populateField('Nome')
     expect(screen.getByText(errorMessage)).toBeInTheDocument()
   })
+
+  test('should show email error if Validation fails', () => {
+    const { validationSpy } = makeSut()
+    const errorMessage = faker.random.words()
+    validationSpy.errorMessage = errorMessage
+    populateField('Email')
+    expect(screen.getByText(errorMessage)).toBeInTheDocument()
+  })
 })
