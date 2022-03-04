@@ -3,17 +3,19 @@ import { AccountCircle } from '@styled-icons/material/AccountCircle'
 import { Email } from '@styled-icons/material/Email'
 import { Lock } from '@styled-icons/material/Lock'
 
-import TextField from '@/presentation/components/text-field'
 import { Validation } from '@/presentation/protocols'
+import TextField from '@/presentation/components/text-field'
 import Button from '@/presentation/components/button'
-import * as S from '@/presentation/components/form'
+import { AddAccount } from '@/domain/usecases'
 import Spinner from '../spinner'
+import * as S from '@/presentation/components/form'
 
 type FormSignUpProps = {
   validation: Validation
+  addAccount: AddAccount
 }
 
-const FormSignUp: React.FC<FormSignUpProps> = ({ validation }: FormSignUpProps) => {
+const FormSignUp: React.FC<FormSignUpProps> = ({ validation, addAccount }: FormSignUpProps) => {
   const [state, setState] = useState({
     loading: false,
     name: '',
@@ -50,6 +52,12 @@ const FormSignUp: React.FC<FormSignUpProps> = ({ validation }: FormSignUpProps) 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault()
     setState({ ...state, loading: true })
+    await addAccount.add({
+      name: state.name,
+      email: state.email,
+      password: state.password,
+      passwordConfirmation: state.passwordConfirmation
+    })
   }
   return (
     <S.FormWrapper>
