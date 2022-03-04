@@ -6,7 +6,7 @@ import userEvent from '@testing-library/user-event'
 import { screen, waitFor } from '@testing-library/react'
 
 import FormSignUp from '@/presentation/components/form-sign-up'
-import { ValidationSpy } from '@/tests/presentation/mocks'
+import { ValidationSpy, SaveAccessTokenMock } from '@/tests/presentation/mocks'
 import { AddAccountSpy } from '@/tests/domain/mocks'
 import { renderWithTheme } from '@/utils/helper'
 import { InvalidCredentialsError } from '@/domain/errors'
@@ -16,19 +16,22 @@ const history = createMemoryHistory()
 type SutTypes = {
   validationSpy: ValidationSpy
   addAccountSpy: AddAccountSpy
+  saveAccessTokenMock: SaveAccessTokenMock
 }
 
 const makeSut = (): SutTypes => {
   const validationSpy = new ValidationSpy()
   const addAccountSpy = new AddAccountSpy()
+  const saveAccessTokenMock = new SaveAccessTokenMock()
   renderWithTheme(
     <Router navigator={history} location='/sing-up' >
-      <FormSignUp validation={validationSpy} addAccount={addAccountSpy} />
+      <FormSignUp validation={validationSpy} addAccount={addAccountSpy} saveAccessToken={saveAccessTokenMock} />
     </Router>
   )
   return {
     validationSpy,
-    addAccountSpy
+    addAccountSpy,
+    saveAccessTokenMock
   }
 }
 
@@ -162,5 +165,12 @@ describe('<FormSignUp />', () => {
     await simulateValidSubmit()
     expect(screen.getByText(error.message)).toBeInTheDocument()
     expect(screen.queryByTestId('spinner')).not.toBeInTheDocument()
+  })
+
+  test('should call SaveAccessToken on success', async () => {
+    const { addAccountSpy, saveAccessTokenMock } = makeSut()
+    await simulateValidSubmit()
+    expect(saveAccessTokenMock.accessToken).toBe(addAccountSpy.account.accessToken)
+    expect(history.location.pathname).toBe('/')
   })
 })

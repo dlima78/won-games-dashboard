@@ -15,10 +15,10 @@ export const mockAddAccountParams = (): AddAccount.Params => {
 export const mockAddAccountModel = (): AddAccount.Model => mockAccountModel()
 
 export class AddAccountSpy implements AddAccount {
-  accountModel = mockAddAccountModel()
+  account = mockAddAccountModel()
   params: AddAccount.Params
   async add (params: AddAccount.Params): Promise<AddAccount.Model> {
     this.params = params
-    return await Promise.resolve(this.accountModel)
+    return await Promise.resolve(this.account)
   }
 }
