@@ -11,7 +11,7 @@ import Spinner from '@/presentation/components/spinner'
 
 import * as S from '@/presentation/components/form'
 
-type FormSignInProps = {
+export type FormSignInProps = {
   validation: Validation
   authentication: Authentication
   saveAccessToken: SaveAccessToken

@@ -9,10 +9,10 @@ export default {
   component: FormSignUp
 } as ComponentMeta<typeof FormSignUp>
 
-export const Default: ComponentStory<typeof FormSignUp> = () => (
+export const Default: ComponentStory<typeof FormSignUp> = (args) => (
   <div style={{ width: 300, margin: 'auto' }}>
     <MemoryRouter>
-      <FormSignUp />
+      <FormSignUp {...args} />
     </MemoryRouter>
   </div>
 )

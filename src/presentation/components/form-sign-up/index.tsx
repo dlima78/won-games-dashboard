@@ -1,19 +1,63 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { AccountCircle } from '@styled-icons/material/AccountCircle'
 import { Email } from '@styled-icons/material/Email'
 import { Lock } from '@styled-icons/material/Lock'
+
 import TextField from '@/presentation/components/text-field'
+import { Validation } from '@/presentation/protocols'
 import Button from '@/presentation/components/button'
 import * as S from '@/presentation/components/form'
 
-const FormSignUp: React.FC = () => {
+type FormSignUpProps = {
+  validation: Validation
+}
+
+const FormSignUp: React.FC<FormSignUpProps> = ({ validation }: FormSignUpProps) => {
+  const [state, setState] = useState({
+    loading: false,
+    name: '',
+    email: '',
+    password: '',
+    emailError: '',
+    passwordError: '',
+    passwordConfirmationError: '',
+    mainError: ''
+  })
+
+  useEffect(() => {
+    setState((s) => ({ ...s, emailError: validation.validate('name', state.name) }))
+  }, [state.name])
+
+  const handleChange = (field: string, value: string): void => {
+    setState((s) => ({ ...s, [field]: value }))
+  }
   return (
     <S.FormWrapper>
       <form >
-        <TextField type='text' icon={<AccountCircle />} placeholder='Nome' />
-        <TextField type='email' icon={<Email />} placeholder='Email' />
-        <TextField type='password' icon={<Lock />} placeholder='Senha' />
-        <TextField type='password' icon={<Lock />} placeholder='Confirme a senha' />
+        <TextField
+          type='text'
+          icon={<AccountCircle />}
+          placeholder='Nome'
+          onInputChange={(v) => handleChange('name', v)}
+        />
+        <TextField
+          error={state.emailError}
+          type='email'
+          icon={<Email />}
+          placeholder='Email'
+          onInputChange={(v) => handleChange('email', v)} />
+        <TextField
+          error={state.passwordError}
+          type='password'
+          icon={<Lock />}
+          placeholder='Senha'
+          onInputChange={(v) => handleChange('password', v)} />
+        <TextField
+          error={state.passwordConfirmationError}
+          type='password'
+          icon={<Lock />}
+          placeholder='Confirme a senha'
+          onInputChange={(v) => handleChange('passwordConfirmation', v)} />
         <Button size='large' fullWidth>
           Cadastrar
         </Button>
