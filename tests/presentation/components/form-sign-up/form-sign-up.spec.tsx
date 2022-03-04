@@ -97,4 +97,12 @@ describe('<FormSignUp />', () => {
     expect(validationSpy.fieldName).toBe('email')
     expect(validationSpy.fieldValue).toBe(email)
   })
+
+  test('should call Validation with correct password', () => {
+    const { validationSpy } = makeSut()
+    const password = faker.internet.password()
+    populateField('Senha', password)
+    expect(validationSpy.fieldName).toBe('password')
+    expect(validationSpy.fieldValue).toBe(password)
+  })
 })
