@@ -9,6 +9,7 @@ import Button from '@/presentation/components/button'
 import { AddAccount } from '@/domain/usecases'
 import Spinner from '../spinner'
 import * as S from '@/presentation/components/form'
+import { ErrorOutline } from '@styled-icons/material'
 
 type FormSignUpProps = {
   validation: Validation
@@ -51,16 +52,26 @@ const FormSignUp: React.FC<FormSignUpProps> = ({ validation, addAccount }: FormS
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault()
-    setState({ ...state, loading: true })
-    await addAccount.add({
-      name: state.name,
-      email: state.email,
-      password: state.password,
-      passwordConfirmation: state.passwordConfirmation
-    })
+    try {
+      setState({ ...state, loading: true })
+      await addAccount.add({
+        name: state.name,
+        email: state.email,
+        password: state.password,
+        passwordConfirmation: state.passwordConfirmation
+      })
+    } catch (error) {
+      setState({
+        ...state,
+        mainError: error.message
+      })
+    }
   }
   return (
     <S.FormWrapper>
+        {state.mainError && <S.FormError data-testid='main-error'>
+          <ErrorOutline /> {state.mainError}
+        </S.FormError> }
       <form onSubmit={handleSubmit} >
         <TextField
           error={state.nameError}
