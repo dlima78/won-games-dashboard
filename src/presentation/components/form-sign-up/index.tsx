@@ -6,17 +6,24 @@ import { Lock } from '@styled-icons/material/Lock'
 import { Validation } from '@/presentation/protocols'
 import TextField from '@/presentation/components/text-field'
 import Button from '@/presentation/components/button'
-import { AddAccount } from '@/domain/usecases'
+import { AddAccount, SaveAccessToken } from '@/domain/usecases'
 import Spinner from '../spinner'
 import * as S from '@/presentation/components/form'
 import { ErrorOutline } from '@styled-icons/material'
+import { useNavigate } from 'react-router-dom'
 
 type FormSignUpProps = {
   validation: Validation
   addAccount: AddAccount
+  saveAccessToken: SaveAccessToken
 }
 
-const FormSignUp: React.FC<FormSignUpProps> = ({ validation, addAccount }: FormSignUpProps) => {
+const FormSignUp: React.FC<FormSignUpProps> = ({
+  validation,
+  addAccount,
+  saveAccessToken
+}: FormSignUpProps) => {
+  const navigate = useNavigate()
   const [state, setState] = useState({
     loading: false,
     name: '',
@@ -54,12 +61,15 @@ const FormSignUp: React.FC<FormSignUpProps> = ({ validation, addAccount }: FormS
     e.preventDefault()
     try {
       setState({ ...state, loading: true })
-      await addAccount.add({
+      const account = await addAccount.add({
         name: state.name,
         email: state.email,
         password: state.password,
         passwordConfirmation: state.passwordConfirmation
       })
+
+      await saveAccessToken.save(account.accessToken)
+      navigate('/')
     } catch (error) {
       setState({
         ...state,
