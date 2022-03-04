@@ -18,6 +18,7 @@ const FormSignUp: React.FC<FormSignUpProps> = ({ validation }: FormSignUpProps) 
     name: '',
     email: '',
     password: '',
+    passwordConfirmation: '',
     nameError: '',
     emailError: '',
     passwordError: '',
@@ -36,6 +37,10 @@ const FormSignUp: React.FC<FormSignUpProps> = ({ validation }: FormSignUpProps) 
   useEffect(() => {
     setState((s) => ({ ...s, passwordError: validation.validate('password', state.password) }))
   }, [state.password])
+
+  useEffect(() => {
+    setState((s) => ({ ...s, passwordConfirmationError: validation.validate('password', state.passwordConfirmation) }))
+  }, [state.passwordConfirmation])
 
   const handleChange = (field: string, value: string): void => {
     setState((s) => ({ ...s, [field]: value }))
