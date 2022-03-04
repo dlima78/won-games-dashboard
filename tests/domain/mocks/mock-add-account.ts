@@ -8,8 +8,17 @@ export const mockAddAccountParams = (): AddAccount.Params => {
     name: faker.name.findName(),
     email: faker.internet.email(),
     password,
-    confirmPassword: password
+    passwordConfirmation: password
   }
 }
 
 export const mockAddAccountModel = (): AddAccount.Model => mockAccountModel()
+
+export class AddAccountSpy implements AddAccount {
+  accountModel = mockAddAccountModel()
+  params: AddAccount.Params
+  async add (params: AddAccount.Params): Promise<AddAccount.Model> {
+    this.params = params
+    return await Promise.resolve(this.accountModel)
+  }
+}
