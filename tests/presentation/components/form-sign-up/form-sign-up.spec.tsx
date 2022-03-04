@@ -1,7 +1,7 @@
 import React from 'react'
 import FormSignUp from '@/presentation/components/form-sign-up'
 import { renderWithTheme } from '@/utils/helper'
-import { screen } from '@testing-library/react'
+import { screen, waitFor } from '@testing-library/react'
 import { createMemoryHistory } from 'history'
 import { Router } from 'react-router-dom'
 import userEvent from '@testing-library/user-event'
@@ -24,6 +24,21 @@ const makeSut = (): SutTypes => {
   return {
     validationSpy
   }
+}
+
+const simulateValidSubmit = async (
+  name = faker.internet.email(),
+  email = faker.internet.email(),
+  password = faker.internet.password()
+): Promise<void> => {
+  populateField('Nome', name)
+  populateField('Email', email)
+  populateField('Senha', password)
+  populateField('Confirme a senha', password)
+
+  const button = screen.getByRole('button', { name: /Cadastrar/i })
+  userEvent.click(button)
+  await waitFor(() => screen.getByRole('link', { name: /já possui conta\?/i }))
 }
 
 const populateField = (fieldName: string, value = faker.random.word()): void => {
@@ -112,5 +127,11 @@ describe('<FormSignUp />', () => {
     populateField('Confirme a senha', password)
     expect(validationSpy.fieldName).toBe('passwordConfirmation')
     expect(validationSpy.fieldValue).toBe(password)
+  })
+
+  test('should show spínner on submit', async () => {
+    makeSut()
+    await simulateValidSubmit()
+    expect(screen.getByTestId('spinner')).toBeInTheDocument()
   })
 })
