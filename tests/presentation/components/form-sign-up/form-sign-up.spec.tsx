@@ -9,6 +9,7 @@ import FormSignUp from '@/presentation/components/form-sign-up'
 import { ValidationSpy } from '@/tests/presentation/mocks'
 import { AddAccountSpy } from '@/tests/domain/mocks'
 import { renderWithTheme } from '@/utils/helper'
+import { InvalidCredentialsError } from '@/domain/errors'
 
 const history = createMemoryHistory()
 
@@ -140,7 +141,7 @@ describe('<FormSignUp />', () => {
     expect(screen.getByTestId('spinner')).toBeInTheDocument()
   })
 
-  test('should show call AddAccount with correct values', async () => {
+  test('should call AddAccount with correct values', async () => {
     const { addAccountSpy } = makeSut()
     const name = faker.name.findName()
     const email = faker.internet.email()
@@ -152,5 +153,14 @@ describe('<FormSignUp />', () => {
       password,
       passwordConfirmation: password
     })
+  })
+
+  test('should present error if AddAccount fails', async () => {
+    const { addAccountSpy } = makeSut()
+    const error = new InvalidCredentialsError()
+    jest.spyOn(addAccountSpy, 'add').mockRejectedValueOnce(error)
+    await simulateValidSubmit()
+    expect(screen.getByText(error.message)).toBeInTheDocument()
+    expect(screen.queryByTestId('spinner')).not.toBeInTheDocument()
   })
 })
