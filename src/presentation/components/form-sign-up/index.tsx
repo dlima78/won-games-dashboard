@@ -7,6 +7,7 @@ import TextField from '@/presentation/components/text-field'
 import { Validation } from '@/presentation/protocols'
 import Button from '@/presentation/components/button'
 import * as S from '@/presentation/components/form'
+import Spinner from '../spinner'
 
 type FormSignUpProps = {
   validation: Validation
@@ -45,9 +46,14 @@ const FormSignUp: React.FC<FormSignUpProps> = ({ validation }: FormSignUpProps) 
   const handleChange = (field: string, value: string): void => {
     setState((s) => ({ ...s, [field]: value }))
   }
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
+    e.preventDefault()
+    setState({ ...state, loading: true })
+  }
   return (
     <S.FormWrapper>
-      <form >
+      <form onSubmit={handleSubmit} >
         <TextField
           error={state.nameError}
           type='text'
@@ -73,8 +79,8 @@ const FormSignUp: React.FC<FormSignUpProps> = ({ validation }: FormSignUpProps) 
           icon={<Lock />}
           placeholder='Confirme a senha'
           onInputChange={(v) => handleChange('passwordConfirmation', v)} />
-        <Button size='large' fullWidth>
-          Cadastrar
+        <Button size='large' type='submit' fullWidth>
+            {state.loading ? <Spinner /> : <span>Cadastrar</span>}
         </Button>
         <S.FormLink to='/sign-in'>Já possui conta?</S.FormLink>
       </form>
