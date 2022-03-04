@@ -29,6 +29,10 @@ const FormSignUp: React.FC<FormSignUpProps> = ({ validation }: FormSignUpProps) 
     setState((s) => ({ ...s, nameError: validation.validate('name', state.name) }))
   }, [state.name])
 
+  useEffect(() => {
+    setState((s) => ({ ...s, emailError: validation.validate('email', state.email) }))
+  }, [state.email])
+
   const handleChange = (field: string, value: string): void => {
     setState((s) => ({ ...s, [field]: value }))
   }
