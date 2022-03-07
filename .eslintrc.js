@@ -7,11 +7,15 @@ module.exports = {
   },
   extends: [
     'standard-with-typescript',
-    'plugin:react/recommended'
+    'plugin:react/recommended',
+    'plugin:cypress/recommended'
   ],
-  plugins: ['react'],
+  plugins: ['react', 'cypress'],
   parserOptions: {
     project: './tsconfig.json'
+  },
+  env: {
+    'cypress/globals': true
   },
   rules: {
     '@typescript-eslint/consistent-type-definitions': 'off',
