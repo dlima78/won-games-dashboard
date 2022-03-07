@@ -4,11 +4,10 @@ import {
   Route,
   Routes
 } from 'react-router-dom'
-import SignUp from '@/presentation/pages/sign-up'
 import GlobalStyles from '@/presentation/styles/global'
 import light from '@/presentation/styles/light'
 import { ThemeProvider } from 'styled-components'
-import { MakeSigIn } from '@/main/factories/pages/sing-in/sign-in-factory'
+import { MakeSigIn, MakeSigUp } from '@/main/factories/pages/'
 
 const Router: React.FC = () => {
   return (
@@ -17,7 +16,7 @@ const Router: React.FC = () => {
         <GlobalStyles />
           <Routes>
             <Route path='/sign-in' element={<MakeSigIn />} />
-            <Route path='/sign-up' element={<SignUp />} />
+            <Route path='/sign-up' element={<MakeSigUp />} />
           </Routes>
       </ThemeProvider>
     </BrowserRouter>

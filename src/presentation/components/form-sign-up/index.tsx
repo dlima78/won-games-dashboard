@@ -37,20 +37,23 @@ const FormSignUp: React.FC<FormSignUpProps> = ({
     mainError: ''
   })
 
+  const { name, email, password, passwordConfirmation } = state
+  const formData = { name, email, password, passwordConfirmation }
+
   useEffect(() => {
-    setState((s) => ({ ...s, nameError: validation.validate('name', { name: state.name }) }))
+    setState((s) => ({ ...s, nameError: validation.validate('name', formData) }))
   }, [state.name])
 
   useEffect(() => {
-    setState((s) => ({ ...s, emailError: validation.validate('email', { email: state.email }) }))
+    setState((s) => ({ ...s, emailError: validation.validate('email', formData) }))
   }, [state.email])
 
   useEffect(() => {
-    setState((s) => ({ ...s, passwordError: validation.validate('password', { password: state.password }) }))
+    setState((s) => ({ ...s, passwordError: validation.validate('password', formData) }))
   }, [state.password])
 
   useEffect(() => {
-    setState((s) => ({ ...s, passwordConfirmationError: validation.validate('passwordConfirmation', { passwordConfirmation: state.passwordConfirmation }) }))
+    setState((s) => ({ ...s, passwordConfirmationError: validation.validate('passwordConfirmation', formData) }))
   }, [state.passwordConfirmation])
 
   const handleChange = (field: string, value: string): void => {
