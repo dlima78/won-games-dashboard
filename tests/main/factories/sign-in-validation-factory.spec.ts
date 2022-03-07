@@ -2,7 +2,7 @@ import { EmailValidation, MinLengthValidation, RequiredFieldValidation } from '@
 import { ValidationComposite } from '@/main/composite'
 import { makeSignInValidation } from '@/main/factories/validation'
 
-describe('LoginValidationFactory', () => {
+describe('SingInValidationFactory', () => {
   test('should make ValidationComposite with correct validators', () => {
     const composite = makeSignInValidation()
 

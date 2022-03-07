@@ -33,13 +33,13 @@ const FormSignIn: React.FC<FormSignInProps> = ({
   })
 
   useEffect(() => {
-    setState((s) => ({ ...s, emailError: validation.validate('email', state.email) }))
+    setState((s) => ({ ...s, emailError: validation.validate('email', { email: state.email }) }))
     if (state.emailError) {
       setState((s) => ({ ...s, isDisabled: true }))
     }
   }, [state.email])
   useEffect(() => {
-    setState((s) => ({ ...s, passwordError: validation.validate('password', state.password) }))
+    setState((s) => ({ ...s, passwordError: validation.validate('password', { password: state.password }) }))
   }, [state.password])
 
   const handleChange = (field: string, value: string): void => {

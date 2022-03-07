@@ -111,7 +111,7 @@ describe('<FormSignUp />', () => {
     const name = faker.name.findName()
     populateField('Nome', name)
     expect(validationSpy.fieldName).toBe('name')
-    expect(validationSpy.fieldValue).toBe(name)
+    expect(validationSpy.fieldValue).toEqual(name)
   })
 
   test('should call Validation with correct email', () => {
