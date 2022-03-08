@@ -12,7 +12,7 @@ module.exports = {
   ],
   plugins: ['react', 'cypress'],
   parserOptions: {
-    project: './tsconfig.json'
+    project: './tsconfig-eslint.json'
   },
   env: {
     'cypress/globals': true

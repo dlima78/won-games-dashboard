@@ -23,5 +23,9 @@
     "src",
     "tests",
     "stories/stories.tsx",
-    "../src/main/config/setup-testes.ts"]
+    "../src/main/config/setup-testes.ts"
+  ],
+  "exclude": [
+    "tests/e2e/cypress"
+  ]
 }
