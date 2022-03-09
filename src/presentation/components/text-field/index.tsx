@@ -3,6 +3,7 @@ import * as S from './text-field.styled'
 
 export type TextFieldProps = {
   onInputChange?: (value: string) => void
+  onInputBlur?: (e: React.FocusEvent<HTMLInputElement>) => void
   label?: string
   labelFor?: string
   labelColor?: 'white' | 'black'
@@ -15,6 +16,7 @@ export type TextFieldProps = {
 
 const TextField: React.FC<TextFieldProps> = ({
   onInputChange,
+  onInputBlur,
   label,
   labelFor = '',
   labelColor = 'black',
@@ -39,9 +41,9 @@ const TextField: React.FC<TextFieldProps> = ({
       {!!label && <S.Label htmlFor={labelFor} labelColor={labelColor} >{label}</S.Label>}
       <S.InputWrapper>
         {!!icon && <S.Icon iconOnRight={iconOnRight} >{icon}</S.Icon> }
-        <S.Input type='text' onChange={onChange} value={value} disabled={disabled} {...props} />
+        <S.Input type='text' onBlur={onInputBlur} onChange={onChange} value={value} disabled={disabled} {...props} />
       </S.InputWrapper>
-        {!!error && <S.ErrorMessage >{error}</S.ErrorMessage>}
+        {!!error && <S.ErrorMessage data-testid='error-message' >{error}</S.ErrorMessage>}
     </S.Wrapper>
   )
 }

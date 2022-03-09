@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { AccountCircle } from '@styled-icons/material/AccountCircle'
 import { Email } from '@styled-icons/material/Email'
 import { Lock } from '@styled-icons/material/Lock'
@@ -40,24 +40,25 @@ const FormSignUp: React.FC<FormSignUpProps> = ({
   const { name, email, password, passwordConfirmation } = state
   const formData = { name, email, password, passwordConfirmation }
 
-  useEffect(() => {
-    setState((s) => ({ ...s, nameError: validation.validate('name', formData) }))
-  }, [state.name])
-
-  useEffect(() => {
-    setState((s) => ({ ...s, emailError: validation.validate('email', formData) }))
-  }, [state.email])
-
-  useEffect(() => {
-    setState((s) => ({ ...s, passwordError: validation.validate('password', formData) }))
-  }, [state.password])
-
-  useEffect(() => {
-    setState((s) => ({ ...s, passwordConfirmationError: validation.validate('passwordConfirmation', formData) }))
-  }, [state.passwordConfirmation])
-
   const handleChange = (field: string, value: string): void => {
     setState((s) => ({ ...s, [field]: value }))
+  }
+
+  const handleBlur = (event: React.FocusEvent<HTMLInputElement>): void => {
+    if (event.target.name === 'name') {
+      setState((s) => ({ ...s, nameError: validation.validate('name', formData) }))
+    }
+    if (event.target.name === 'email') {
+      setState((s) => ({ ...s, emailError: validation.validate('email', formData) }))
+    }
+
+    if (event.target.name === 'password') {
+      setState((s) => ({ ...s, passwordError: validation.validate('password', formData) }))
+    }
+
+    if (event.target.name === 'passwordConfirmation') {
+      setState((s) => ({ ...s, passwordConfirmationError: validation.validate('passwordConfirmation', formData) }))
+    }
   }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
@@ -80,6 +81,8 @@ const FormSignUp: React.FC<FormSignUpProps> = ({
       })
     }
   }
+
+  const isFormEmpty = !state.email || !state.password || !state.name || !state.passwordConfirmation
   return (
     <S.FormWrapper>
         {state.mainError && <S.FormError data-testid='main-error'>
@@ -91,27 +94,34 @@ const FormSignUp: React.FC<FormSignUpProps> = ({
           type='text'
           icon={<AccountCircle />}
           placeholder='Nome'
+          name='name'
           onInputChange={(v) => handleChange('name', v)}
-        />
+          onInputBlur={handleBlur} />
         <TextField
           error={state.emailError}
           type='email'
           icon={<Email />}
           placeholder='Email'
-          onInputChange={(v) => handleChange('email', v)} />
+          name='email'
+          onInputChange={(v) => handleChange('email', v)}
+          onInputBlur={handleBlur} />
         <TextField
           error={state.passwordError}
           type='password'
           icon={<Lock />}
           placeholder='Senha'
-          onInputChange={(v) => handleChange('password', v)} />
+          name='password'
+          onInputChange={(v) => handleChange('password', v)}
+          onInputBlur={handleBlur} />
         <TextField
           error={state.passwordConfirmationError}
           type='password'
           icon={<Lock />}
           placeholder='Confirme a senha'
-          onInputChange={(v) => handleChange('passwordConfirmation', v)} />
-        <Button size='large' type='submit' fullWidth>
+          name='passwordConfirmation'
+          onInputChange={(v) => handleChange('passwordConfirmation', v)}
+          onInputBlur={handleBlur} />
+        <Button size='large' type='submit' fullWidth disabled={isFormEmpty}>
             {state.loading ? <Spinner /> : <span>Cadastrar</span>}
         </Button>
         <S.FormLink to='/sign-in'>Já possui conta?</S.FormLink>

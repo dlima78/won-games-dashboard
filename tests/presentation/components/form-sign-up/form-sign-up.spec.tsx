@@ -3,7 +3,7 @@ import faker from '@faker-js/faker'
 import { Router } from 'react-router-dom'
 import { createMemoryHistory } from 'history'
 import userEvent from '@testing-library/user-event'
-import { screen, waitFor } from '@testing-library/react'
+import { fireEvent, screen, waitFor } from '@testing-library/react'
 
 import FormSignUp from '@/presentation/components/form-sign-up'
 import { ValidationSpy, SaveAccessTokenMock } from '@/tests/presentation/mocks'
@@ -74,35 +74,39 @@ describe('<FormSignUp />', () => {
     expect(history.location.pathname).toBe('/sign-in')
   })
 
-  test('should show name error if Validation fails', () => {
+  test('should show name error if Validation fails on focus out', () => {
     const { validationSpy } = makeSut()
     const errorMessage = faker.random.words()
     validationSpy.errorMessage = errorMessage
     populateField('Nome')
+    fireEvent.focusOut(screen.getByPlaceholderText(/nome/i))
     expect(screen.getByText(errorMessage)).toBeInTheDocument()
   })
 
-  test('should show email error if Validation fails', () => {
+  test('should show email error if Validation fails on focus out', () => {
     const { validationSpy } = makeSut()
     const errorMessage = faker.random.words()
     validationSpy.errorMessage = errorMessage
     populateField('Email')
+    fireEvent.focusOut(screen.getByPlaceholderText(/email/i))
     expect(screen.getByText(errorMessage)).toBeInTheDocument()
   })
 
-  test('should show password error if Validation fails', () => {
+  test('should show password error if Validation fails on focus out', () => {
     const { validationSpy } = makeSut()
     const errorMessage = faker.random.words()
     validationSpy.errorMessage = errorMessage
     populateField('Senha')
+    fireEvent.focusOut(screen.getByPlaceholderText('Senha'))
     expect(screen.getByText(errorMessage)).toBeInTheDocument()
   })
 
-  test('should show passwordConfirmation error if Validation fails', () => {
+  test('should show passwordConfirmation error if Validation fails on focus out', () => {
     const { validationSpy } = makeSut()
     const errorMessage = faker.random.words()
     validationSpy.errorMessage = errorMessage
     populateField('Confirme a senha')
+    fireEvent.focusOut(screen.getByPlaceholderText(/confirme a senha/i))
     expect(screen.getByText(errorMessage)).toBeInTheDocument()
   })
 
@@ -110,6 +114,7 @@ describe('<FormSignUp />', () => {
     const { validationSpy } = makeSut()
     const name = faker.name.findName()
     populateField('Nome', name)
+    fireEvent.focusOut(screen.getByPlaceholderText(/nome/i))
     expect(validationSpy.fieldName).toBe('name')
     expect(validationSpy.fieldValue).toEqual(name)
   })
@@ -118,6 +123,7 @@ describe('<FormSignUp />', () => {
     const { validationSpy } = makeSut()
     const email = faker.internet.email()
     populateField('Email', email)
+    fireEvent.focusOut(screen.getByPlaceholderText(/email/i))
     expect(validationSpy.fieldName).toBe('email')
     expect(validationSpy.fieldValue).toBe(email)
   })
@@ -126,6 +132,7 @@ describe('<FormSignUp />', () => {
     const { validationSpy } = makeSut()
     const password = faker.internet.password()
     populateField('Senha', password)
+    fireEvent.focusOut(screen.getByPlaceholderText('Senha'))
     expect(validationSpy.fieldName).toBe('password')
     expect(validationSpy.fieldValue).toBe(password)
   })
@@ -134,6 +141,7 @@ describe('<FormSignUp />', () => {
     const { validationSpy } = makeSut()
     const password = faker.internet.password()
     populateField('Confirme a senha', password)
+    fireEvent.focusOut(screen.getByPlaceholderText(/confirme a senha/i))
     expect(validationSpy.fieldName).toBe('passwordConfirmation')
     expect(validationSpy.fieldValue).toBe(password)
   })

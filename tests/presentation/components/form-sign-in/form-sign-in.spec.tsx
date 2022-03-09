@@ -4,7 +4,7 @@ import faker from '@faker-js/faker'
 
 import FormSignIn from '@/presentation/components/form-sign-in'
 import { renderWithTheme } from '@/utils/helper'
-import { screen, waitFor } from '@testing-library/react'
+import { fireEvent, screen, waitFor } from '@testing-library/react'
 import { Router } from 'react-router-dom'
 import { createMemoryHistory } from 'history'
 import { AuthenticationSpy } from '@/tests/domain/mocks'
@@ -39,7 +39,7 @@ const simulateValidSubmit = async (
   password = faker.internet.password()
 ): Promise<void> => {
   populateField('Email', email)
-  populateField('Password', password)
+  populateField('Senha', password)
   const button = screen.getByRole('button', { name: /Entrar/i })
   userEvent.click(button)
   await waitFor(() => screen.getByRole('link', { name: /criar conta/i }))
@@ -54,11 +54,12 @@ describe('<FormSignIn />', () => {
   test('Should render the form with initial state', () => {
     makeSut()
     expect(screen.getByPlaceholderText(/email/i)).toBeInTheDocument()
-    expect(screen.getByPlaceholderText(/password/i)).toBeInTheDocument()
+    expect(screen.getByPlaceholderText(/senha/i)).toBeInTheDocument()
     expect(screen.getByRole('link', { name: /esqueceu a senha\?/i })).toBeInTheDocument()
     const button = screen.getByRole('button', { name: /Entrar/i })
     expect(button).toBeInTheDocument()
     expect(screen.queryByTestId('spinner')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('error-message')).not.toBeInTheDocument()
   })
 
   test('Should go to signup page', () => {
@@ -72,6 +73,7 @@ describe('<FormSignIn />', () => {
     const { validationSpy } = makeSut()
     const email = faker.internet.email()
     populateField('Email', email)
+    fireEvent.focusOut(screen.getByPlaceholderText(/email/i))
     expect(validationSpy.fieldName).toBe('email')
     expect(validationSpy.fieldValue).toBe(email)
   })
@@ -79,24 +81,27 @@ describe('<FormSignIn />', () => {
   test('should call Validation with correct password', () => {
     const { validationSpy } = makeSut()
     const password = faker.internet.password()
-    populateField('Password', password)
+    populateField('Senha', password)
+    fireEvent.focusOut(screen.getByPlaceholderText(/senha/i))
     expect(validationSpy.fieldName).toBe('password')
     expect(validationSpy.fieldValue).toBe(password)
   })
 
-  test('should show email error if Validation fails', () => {
+  test('should show email error if Validation fails on focus out', () => {
     const { validationSpy } = makeSut()
     const errorMessage = faker.random.words()
     validationSpy.errorMessage = errorMessage
     populateField('Email')
+    fireEvent.focusOut(screen.getByPlaceholderText(/email/i))
     expect(screen.getByText(errorMessage)).toBeInTheDocument()
   })
 
-  test('should show password error if Validation fails', () => {
+  test('should show password error if Validation fails on focus out', () => {
     const { validationSpy } = makeSut()
     const errorMessage = faker.random.words()
     validationSpy.errorMessage = errorMessage
-    populateField('Password')
+    populateField('Senha')
+    fireEvent.focusOut(screen.getByPlaceholderText(/senha/i))
     expect(screen.getByText(errorMessage)).toBeInTheDocument()
   })
 
