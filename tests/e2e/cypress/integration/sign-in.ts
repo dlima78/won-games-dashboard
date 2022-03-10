@@ -1,5 +1,8 @@
 /// <reference path="../support/index.d.ts" />
 import faker from '@faker-js/faker'
+
+const baseUrl: string = Cypress.config().baseUrl
+
 describe('Cypress TS', () => {
   beforeEach(() => {
     cy.visit('sign-in')
@@ -29,9 +32,25 @@ describe('Cypress TS', () => {
     .type(faker.internet.email())
     .blur()
     cy.findByText(/campo email inválido/i).should('not.exist')
-    cy.findByPlaceholderText(/email/i)
-    .type(faker.internet.password())
+    cy.findByPlaceholderText(/senha/i)
+    .type(faker.internet.password(5))
     .blur()
     cy.findByText(/o campo precisa ter no minimo 5 caracteres/i).should('not.exist')
+  })
+
+  it('should present error if credentials is invalid', () => {
+    cy.findByPlaceholderText(/email/i)
+    .type(faker.internet.email())
+    .blur()
+    cy.findByText(/campo email inválido/i).should('not.exist')
+    cy.findByPlaceholderText(/senha/i)
+    .type(faker.internet.password(5))
+    .blur()
+    cy.findByText(/o campo precisa ter no minimo 5 caracteres/i).should('not.exist')
+    cy.findByRole('button', { name: /entrar/i })
+    .click()
+    cy.get('[data-testid=spinner]').should('exist')
+    cy.findByText(/credenciais inválidas/i).should('exist')
+    cy.url().should('eq', `${baseUrl}/sign-in`)
   })
 })
