@@ -15,7 +15,8 @@
     "prepare": "husky install",
     "storybook": "start-storybook -p 6006 --no-open",
     "build-storybook": "build-storybook",
-    "cypress:open": "cypress open"
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run"
   },
   "keywords": [],
   "author": "",

@@ -3,5 +3,6 @@
   "integrationFolder": "tests/e2e/cypress/integration",
   "supportFile": "tests/e2e/cypress/support/index.ts",
   "pluginsFile": "tests/e2e/cypress/plugins/index.js",
-  "fixturesFolder": "tests/e2e/cypress/fixtures"
+  "fixturesFolder": "tests/e2e/cypress/fixtures",
+  "video": false
 }
