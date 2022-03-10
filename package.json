@@ -16,7 +16,8 @@
     "storybook": "start-storybook -p 6006 --no-open",
     "build-storybook": "build-storybook",
     "cypress:open": "cypress open",
-    "cypress:run": "cypress run"
+    "cypress:run": "cypress run",
+    "test:e2e": "start-server-and-test start 8080 cypress:open"
   },
   "keywords": [],
   "author": "",
@@ -63,6 +64,7 @@
     "lint-staged": "^11.1.2",
     "plop": "^3.0.5",
     "polished": "^4.1.4",
+    "start-server-and-test": "^1.14.0",
     "styled-components": "^5.3.3",
     "styled-media-query": "^2.1.2",
     "ts-jest": "^27.1.3",
