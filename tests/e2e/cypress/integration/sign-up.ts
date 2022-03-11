@@ -81,4 +81,30 @@ describe('SignUp', () => {
     cy.url().should('eq', `${baseUrl}/sign-up`)
   })
 
+  it('should save accessToken if credentials is valid', () => {
+    const token = faker.datatype.uuid()
+    cy.intercept('POST', /signup/, {
+      statusCode: 200,
+      body: {
+        accessToken: token
+      }
+    }).as('validPost')
+    cy.findByPlaceholderText(/nome/i)
+    .type(faker.internet.email())
+    .blur()
+    cy.findByPlaceholderText(/email/i)
+    .type(faker.internet.email())
+    .blur()
+    const password = faker.random.alphaNumeric(6)
+    cy.findByPlaceholderText('Senha')
+    .type(password)
+    .blur()
+    cy.findByPlaceholderText(/confirme a senha/i)
+    .type(password)
+    .blur()
+    cy.findByRole('button', { name: /cadastrar/i}).click()
+    cy.get('[data-testid=spinner]').should('not.exist')
+    cy.url().should('eq', `${baseUrl}/`)
+    cy.window().then(window => assert.isOk(window.localStorage.getItem('accessToken')))
+  })
 })
