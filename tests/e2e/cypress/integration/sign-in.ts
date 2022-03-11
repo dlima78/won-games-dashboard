@@ -39,6 +39,10 @@ describe('Cypress TS', () => {
   })
 
   it('should present error if credentials is invalid', () => {
+    cy.intercept('POST', /login/ , {
+        statusCode: 401
+      }
+    ).as('invalidPost')
     cy.findByPlaceholderText(/email/i)
     .type(faker.internet.email())
     .blur()
@@ -47,15 +51,21 @@ describe('Cypress TS', () => {
     .type(faker.internet.password(5))
     .blur()
     cy.findByText(/o campo precisa ter no minimo 5 caracteres/i).should('not.exist')
-    cy.findByRole('button', { name: /entrar/i })
-    .click()
-    cy.get('[data-testid=spinner]').should('exist')
-    cy.findByText(/credenciais inválidas/i).should('exist')
+    cy.get('form').submit()
+    cy.wait('@invalidPost')
     cy.get('[data-testid=spinner]').should('not.exist')
+    cy.findByText(/credenciais inválidas/i).should('exist')
     cy.url().should('eq', `${baseUrl}/sign-in`)
   })
 
   it('should save accessToken if credentials is valid', () => {
+    const token = faker.datatype.uuid()
+    cy.intercept('POST', /login/, {
+      statusCode: 200,
+      body: {
+        accessToken: token
+      }
+    }).as('validPost')
     cy.findByPlaceholderText(/email/i)
     .type('teste@teste.com')
     .blur()
@@ -64,9 +74,8 @@ describe('Cypress TS', () => {
     .type('123456')
     .blur()
     cy.findByText(/o campo precisa ter no minimo 5 caracteres/i).should('not.exist')
-    cy.findByRole('button', { name: /entrar/i })
-    .click()
-    cy.get('[data-testid=spinner]').should('exist')
+    cy.get('form').submit()
+    cy.get('[data-testid=spinner]').should('not.exist')
     cy.findByText(/credenciais inválidas/i).should('not.exist')
     cy.get('[data-testid=spinner]').should('not.exist')
     cy.url().should('eq', `${baseUrl}/`)
