@@ -3,8 +3,8 @@
 declare namespace Cypress {
   interface Chainable {
     /**
-     * Custom command to fields By Placeholder
-     * @example cy.google()
+     * Custom command to sign in
+     * @example cy.signIn()
      */
      signIn(email?: string, password?: string ): Chainable<Element>
 
@@ -14,5 +14,11 @@ declare namespace Cypress {
      * @param password 
      */
      dobleClick(email?: string, password?: string): Chainable<Element>
+
+     /**
+     * Custom command to sign up
+     * @example cy.signUp(user)
+     */
+    signUp(name?: string, email?: string, password?: string): Chainable<Element>
   }
 }

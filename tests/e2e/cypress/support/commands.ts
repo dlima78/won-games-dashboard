@@ -39,3 +39,23 @@ Cypress.Commands.add('dobleClick', (email = faker.internet.email(), password = f
   cy.findAllByPlaceholderText(/senha/i).type(password).blur()
   cy.findByRole('button', { name: /entrar/i }).dblclick()
 })
+
+Cypress.Commands.add('signUp', (
+  name = faker.name.findName(),
+  email = faker.internet.email(),
+  password = faker.internet.password()
+) => {
+  cy.findByPlaceholderText(/nome/i)
+    .type(name)
+    .blur()
+    cy.findByPlaceholderText(/email/i)
+    .type(email)
+    .blur()
+    cy.findByPlaceholderText('Senha')
+    .type(password)
+    .blur()
+    cy.findByPlaceholderText(/confirme a senha/i)
+    .type(password)
+    .blur()
+    cy.findByRole('button', { name: /cadastrar/i}).click()
+})
