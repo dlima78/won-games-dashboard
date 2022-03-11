@@ -38,7 +38,7 @@ describe('Cypress TS', () => {
     cy.findByText(/o campo precisa ter no minimo 5 caracteres/i).should('not.exist')
   })
 
-  it('should present error if credentials is invalid', () => {
+  it('should present UnexpectedError on 400', () => {
     cy.intercept('POST', /login/ , {
         statusCode: 400
       }
@@ -58,11 +58,14 @@ describe('Cypress TS', () => {
     cy.url().should('eq', `${baseUrl}/sign-in`)
   })
 
-  it('should present error if credentials is invalid', () => {
+  it('should present InvalidCredentialsError on 401', () => {
     cy.intercept('POST', /login/ , {
-        statusCode: 401
+        statusCode: 401,
+        body: {
+          error: faker.random.words()
+        }
       }
-    ).as('invalidPost')
+    ).as('invalidCredentials')
     cy.findByPlaceholderText(/email/i)
     .type(faker.internet.email())
     .blur()
@@ -72,7 +75,7 @@ describe('Cypress TS', () => {
     .blur()
     cy.findByText(/o campo precisa ter no minimo 5 caracteres/i).should('not.exist')
     cy.get('form').submit()
-    cy.wait('@invalidPost')
+    cy.wait('@invalidCredentials')
     cy.get('[data-testid=spinner]').should('not.exist')
     cy.findByText(/credenciais inválidas/i).should('exist')
     cy.url().should('eq', `${baseUrl}/sign-in`)
