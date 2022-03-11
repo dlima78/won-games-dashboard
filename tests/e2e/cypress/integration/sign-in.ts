@@ -97,11 +97,31 @@ describe('Cypress TS', () => {
     .type('123456')
     .blur()
     cy.findByText(/o campo precisa ter no minimo 5 caracteres/i).should('not.exist')
-    cy.get('form').submit()
-    cy.get('[data-testid=spinner]').should('not.exist')
+    cy.get('form').submit()    
     cy.findByText(/credenciais inválidas/i).should('not.exist')
     cy.get('[data-testid=spinner]').should('not.exist')
     cy.url().should('eq', `${baseUrl}/`)
     cy.window().then(window => assert.isOk(window.localStorage.getItem('accessToken')))
+  })
+
+  it('should prevent multiple submits', () => {
+    const token = faker.datatype.uuid()
+    cy.intercept('POST', /login/, {
+      statusCode: 200,
+      body: {
+        accessToken: token
+      }
+    }).as('request')
+    cy.findByPlaceholderText(/email/i)
+    .type('teste@teste.com')
+    .blur()
+    cy.findByText(/campo email inválido/i).should('not.exist')
+    cy.findByPlaceholderText(/senha/i)
+    .type('123456')
+    .blur()
+    cy.findByText(/o campo precisa ter no minimo 5 caracteres/i).should('not.exist')
+    cy.findByRole('button', { name: /entrar/i})
+    .dblclick()
+    cy.get('@request.all').should('have.length', 1)
   })
 })
