@@ -3,7 +3,7 @@ import faker from '@faker-js/faker'
 
 const baseUrl: string = Cypress.config().baseUrl
 
-describe('Cypress TS', () => {
+describe('SignIn', () => {
   beforeEach(() => {
     cy.visit('sign-in')
   })
@@ -46,11 +46,9 @@ describe('Cypress TS', () => {
     cy.findByPlaceholderText(/email/i)
     .type(faker.internet.email())
     .blur()
-    cy.findByText(/campo email inválido/i).should('not.exist')
     cy.findByPlaceholderText(/senha/i)
     .type(faker.internet.password(5))
     .blur()
-    cy.findByText(/o campo precisa ter no minimo 5 caracteres/i).should('not.exist')
     cy.get('form').submit()
     cy.wait('@invalidPost')
     cy.get('[data-testid=spinner]').should('not.exist')
@@ -89,16 +87,7 @@ describe('Cypress TS', () => {
         accessToken: token
       }
     }).as('validPost')
-    cy.findByPlaceholderText(/email/i)
-    .type('teste@teste.com')
-    .blur()
-    cy.findByText(/campo email inválido/i).should('not.exist')
-    cy.findByPlaceholderText(/senha/i)
-    .type('123456')
-    .blur()
-    cy.findByText(/o campo precisa ter no minimo 5 caracteres/i).should('not.exist')
-    cy.get('form').submit()
-    cy.findByText(/credenciais inválidas/i).should('not.exist')
+    cy.signIn()
     cy.get('[data-testid=spinner]').should('not.exist')
     cy.url().should('eq', `${baseUrl}/`)
     cy.window().then(window => assert.isOk(window.localStorage.getItem('accessToken')))
@@ -112,16 +101,7 @@ describe('Cypress TS', () => {
         accessToken: token
       }
     }).as('request')
-    cy.findByPlaceholderText(/email/i)
-    .type('teste@teste.com')
-    .blur()
-    cy.findByText(/campo email inválido/i).should('not.exist')
-    cy.findByPlaceholderText(/senha/i)
-    .type('123456')
-    .blur()
-    cy.findByText(/o campo precisa ter no minimo 5 caracteres/i).should('not.exist')
-    cy.findByRole('button', { name: /entrar/i})
-    .dblclick()
+    cy.dobleClick()
     cy.get('@request.all').should('have.length', 1)
   })
 

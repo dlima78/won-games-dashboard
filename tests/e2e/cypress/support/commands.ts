@@ -25,5 +25,17 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
 // Add teting library commands
+import faker from '@faker-js/faker';
 import '@testing-library/cypress/add-commands';
 
+Cypress.Commands.add('signIn', (email = faker.internet.email(), password = faker.internet.password()) => {
+  cy.findAllByPlaceholderText(/email/i).type(email).blur()
+  cy.findAllByPlaceholderText(/senha/i).type(password).blur()
+  cy.findByRole('button', { name: /entrar/i }).click()
+})
+
+Cypress.Commands.add('dobleClick', (email = faker.internet.email(), password = faker.internet.password()) => {
+  cy.findAllByPlaceholderText(/email/i).type(email).blur()
+  cy.findAllByPlaceholderText(/senha/i).type(password).blur()
+  cy.findByRole('button', { name: /entrar/i }).dblclick()
+})
