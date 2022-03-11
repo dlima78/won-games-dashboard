@@ -1,6 +1,8 @@
 /// <reference path="../support/index.d.ts" />
 import faker from "@faker-js/faker"
 
+const baseUrl: string = Cypress.config().baseUrl
+
 describe('SignUp', () => {
   beforeEach(() => {
     cy.visit('sign-up')
@@ -52,6 +54,31 @@ describe('SignUp', () => {
     .type(password)
     .blur()
     cy.findByText('Confirmação de senha inválida').should('not.exist')
+  })
+
+  it('should present UnexpectedError on 400', () => {
+    cy.intercept('POST', /signup/ , {
+        statusCode: 400
+      }
+    ).as('invalidPost')
+    cy.findByPlaceholderText(/nome/i)
+    .type(faker.internet.email())
+    .blur()
+    cy.findByPlaceholderText(/email/i)
+    .type(faker.internet.email())
+    .blur()
+    const password = faker.random.alphaNumeric(6)
+    cy.findByPlaceholderText('Senha')
+    .type(password)
+    .blur()
+    cy.findByPlaceholderText(/confirme a senha/i)
+    .type(password)
+    .blur()
+    cy.get('form').submit()
+    cy.wait('@invalidPost')
+    cy.get('[data-testid=spinner]').should('not.exist')
+    cy.findByText('Algo de errado acounteceu. Tente novamente em breve.').should('exist')
+    cy.url().should('eq', `${baseUrl}/sign-up`)
   })
 
 })
